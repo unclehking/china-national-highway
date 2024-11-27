@@ -61,4 +61,8 @@ const openWebUrl = (url) => {
             exec(`xdg-open ${url}`)
     }
 }
-openWebUrl(`http://${hostname}:${port}/index.html`);
+
+const args = process.argv.slice(2);
+if (args[0] === '--open') {
+    openWebUrl(`http://${hostname}:${port}/index.html`);
+}
