@@ -1,6 +1,8 @@
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
+const os = require('os');
 const port = 3000; // 服务器端口
 const hostname = '127.0.0.1'; // 服务器地址
 const directory = path.join(__dirname, './'); // 静态文件目录
@@ -44,3 +46,19 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+//打开浏览器
+const openWebUrl = (url) => {
+    let type = os.platform()
+    switch (type) {
+            case 'win32':   //windows系统
+            exec(`start ${url}`)
+        break
+        case 'darwin':  //苹果系统
+            exec(`open ${url}`)
+            break
+        default:  //linux系统
+            exec(`xdg-open ${url}`)
+    }
+}
+openWebUrl(`http://${hostname}:${port}/index.html`);
