@@ -1,0 +1,19 @@
+
+html,
+body,
+#container {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.tools{
+    width: 200px;
+    height: 100vh;
+    background: #fff;
+    border-left: solid #aaa 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+}

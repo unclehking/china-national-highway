@@ -1,0 +1,264 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+        <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+        <title>国道旅行地图</title>
+        <style>
+            html,
+            body,
+            #container {
+                width: 100%;
+                height: 100%;
+            }
+            .amap-copyright,
+            .amap-logo{
+                display: none !important;
+            }
+            .btnWrap{
+                position: fixed;
+                left: 0;
+                top: 12px;
+                z-index: 99999;
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #btn{
+                width: 100px;
+                height: 34px;
+                border-radius: 100px 4px 4px 100px;
+                background: #409eff;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #btn::after{
+                content: " ";
+                width: 12px;
+                height: 12px;
+                display: block;
+                border-top: solid #fff 2px;
+                border-right: solid #fff 2px;
+                transform: rotate(45deg) scale(0.7) translate(10px, -9px);
+                margin-left: 6px;
+                opacity: 0.8;
+            }
+            .label{
+                position: fixed;
+                width: 100%;
+                left: 0;
+                bottom: 20px;
+                z-index: 999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .label .item{
+                display: flex;
+                align-items: center;
+                margin-right: 16px;
+            }
+            .label .item .icon{
+                width: 16px;
+                border-top: solid red 2px;
+                margin-right: 4px;
+            }
+            .label .item .icon.type0{
+                border-top: dashed red 2px;
+            }
+            .label .item .icon.type2{
+                border-color: green;
+            }
+            .road-info{
+                width: 44px;
+                height: 34px;
+                border-radius: 4px 50px 50px 4px;
+                background: #409eff;
+                border: none;
+                color: #fff;
+                font-size: 10px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 4px;
+            }
+            .road-info svg{
+                transform: translateX(-3px) scale(0.9);
+            }
+            /* #container,.label{
+                visibility: hidden;
+            } */
+
+        </style>
+    </head>
+
+    <body>
+        <!-- <div class="btnWrap">
+            <button id="btn" onclick="selectRoad()">选择</button>
+            <button class="road-info" onclick="roadInfo()">
+                <svg t="1729562594293" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="39824" width="128" height="128"><path d="M757.76 798.72H307.2c-34.816 0-61.44-26.624-61.44-61.44V307.2c0-34.816 26.624-61.44 61.44-61.44h450.56c34.816 0 61.44 26.624 61.44 61.44v430.08c0 34.816-26.624 61.44-61.44 61.44zM307.2 286.72c-12.288 0-20.48 8.192-20.48 20.48v430.08c0 12.288 8.192 20.48 20.48 20.48h450.56c12.288 0 20.48-8.192 20.48-20.48V307.2c0-12.288-8.192-20.48-20.48-20.48H307.2z" fill="#ffffff" p-id="39825"></path><path d="M409.6 481.28c-34.816 0-61.44-26.624-61.44-61.44s26.624-61.44 61.44-61.44 61.44 26.624 61.44 61.44-26.624 61.44-61.44 61.44z m0-81.92c-12.288 0-20.48 8.192-20.48 20.48s8.192 20.48 20.48 20.48 20.48-8.192 20.48-20.48-8.192-20.48-20.48-20.48zM675.84 598.016H374.784c-12.288 0-20.48-8.192-20.48-20.48s8.192-20.48 20.48-20.48H675.84c12.288 0 20.48 8.192 20.48 20.48s-8.192 20.48-20.48 20.48zM675.84 684.032H374.784c-12.288 0-20.48-8.192-20.48-20.48s8.192-20.48 20.48-20.48H675.84c12.288 0 20.48 8.192 20.48 20.48s-8.192 20.48-20.48 20.48z" fill="#ffffff" p-id="39826"></path></svg>
+            </button>
+        </div> -->
+        <!-- <div class="label">
+            <div class="item">
+                <div class="icon type1"></div>国道
+            </div>
+            <div class="item">
+                <div class="icon type0"></div>在建
+            </div>
+            <div class="item">
+                <div class="icon type2"></div>高速
+            </div>
+        </div> -->
+        <div id="container"></div>
+        <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+        <!-- <script src="./lib/pako.js"></script> -->
+        <script src="https://webapi.amap.com/maps?v=2.0&key=b6808ca4897b041fde1e63845e0cf907"></script>
+        <script>
+
+            // 获取URL参数
+            var urlParams = new URLSearchParams(window.location.search);
+            var name = urlParams.get('name');
+            var id = urlParams.get('id');
+            
+            function getHash() {
+                name = location.hash.replace(/#/g, '');
+                // document.querySelector("#btn").innerHTML = name;
+                // console.log(document.querySelector("#btn"));
+                getRoads();
+            }
+            window.addEventListener('hashchange', getHash)
+
+            var polyEditor;
+            var map = new AMap.Map('container', {
+                viewMode: '2D',
+                zoom: 4.5,
+                mapStyle: "amap://styles/whitesmoke",
+                center: [104.50,36.53]
+            });
+
+            function roadChange(e) {
+                // console.log(e.value, 111);
+                // name = e.value;
+                location.href = `#${e.value}`;
+                // getRoads();
+            }
+
+            function getData(id='', flag = null) {
+                fetch(`https://road.h5cssjs.com/detail/${name}/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    let paths = data.paths;
+                    let strokeStyle = data.status === 0 ? 'dashed' : 'solid';
+                    let strokeColor = data.status === 2 ? 'green' : 'red';
+                    drawPath(paths, strokeStyle, strokeColor);
+                    if (flag === 'first') {
+                        let startIcon = new AMap.Icon({
+                            // 图标尺寸
+                            size: new AMap.Size(25, 34),
+                            // 图标的取图地址
+                            image: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png',
+                            // 图标所用图片大小
+                            imageSize: new AMap.Size(135, 40),
+                            // 图标取图偏移量
+                            imageOffset: new AMap.Pixel(-9, -3)
+                        });
+                        let startMarker = new AMap.Marker({
+                            // position: new AMap.LngLat(116.35,39.89),
+                            position: paths[0],
+                            icon: startIcon,
+                            offset: new AMap.Pixel(-13, -30)
+                        });
+                        map.add(startMarker);
+                    } else if(flag === 'last') {
+                        let endIcon = new AMap.Icon({
+                            size: new AMap.Size(25, 34),
+                            image: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png',
+                            imageSize: new AMap.Size(135, 40),
+                            // 图标取图偏移量
+                            imageOffset: new AMap.Pixel(-95, -3)
+                        });
+                        let endMarker = new AMap.Marker({
+                            position: paths.at(-1),
+                            icon: endIcon,
+                            offset: new AMap.Pixel(-13, -30)
+                        });
+                        map.add(endMarker);
+                    }
+
+                })
+                .catch(error => {
+                    console.error('获取详情失败:', error);
+                });
+            }
+            function getRoads() {
+                fetch(`https://road.h5cssjs.com/getRoads/${name}`)
+                .then(res => res.json())
+                .then(res => {
+                    map.clearMap()
+                    // for (const section of res) {
+                    //     console.log(section, 333333);
+                    //     getData(section._id);
+                    // };
+                    res.forEach((section, index) => {
+                        let flag = index === 0 ? 'first' : index === (res.length - 1) ? 'last' : null;
+                        getData(section._id, flag);
+                    });
+                });
+            }
+
+            function drawPath(coordinates=[], strokeStyle="solid", strokeColor="red") {
+                const polyline = new AMap.Polyline({
+                    path: coordinates,
+                    strokeColor, 
+                    strokeWeight: 3,
+                    strokeOpacity: 0.8,
+                    lineJoin: 'round',
+                    lineCap: 'round',
+                    geodesic: true,
+                    // draggable: true,
+                    // showDir: true,
+                    strokeStyle,
+                });
+                map.add(polyline);
+                
+                // polyEditor = new AMap.PolylineEditor(map, polyline);
+                // polyEditor.open();
+                map.setFitView();
+            }
+            
+            if(id) {
+                map.clearMap();
+                getData(id);
+            }else{
+                getHash();
+            }
+
+            function selectRoad() {
+                wx.miniProgram.navigateTo({url: '/pages/select-road/index'});
+            }
+            function roadInfo() {
+                wx.miniProgram.navigateTo({url: `/pages/info/index?name=${name}` });
+            }
+
+            // db.roads.insertMany(
+            //     [
+            //         { "name": "G315", "status": 1, "description": "西宁-喀什", "index": 14 }, 
+            //     ]
+            // );
+
+
+        </script>
+    </body>
+
+</html>

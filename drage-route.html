@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+        <title>可拖拽的路线规划</title>
+        <link rel="stylesheet" type="text/css" href="./index.css"/>
+        <!-- 重要，请到 https://console.amap.com 申请 JS API 的 key和密钥 -->
+        <script> 
+            window._AMapSecurityConfig = {
+            securityJsCode: '290ddc4b0d33be7bc9b354bc6a4ca614',
+            }
+        </script>
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+        <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=6f025e700cbacbb0bb866712d20bb35c&plugin=AMap.PolylineEditor"></script>
+        <!-- <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script> -->
+    </head>
+    <body>
+        <div id="app">
+            <div id="container"></div>
+            <div class="tools">
+                <div class="item">
+                    名称：<el-input type="text" v-model="form.name" ></el-input>
+                </div>
+                <div class="item">
+                    序号：<el-input type="number" v-model="form.index" ></el-input>
+                </div>
+                <div class="item">
+                    状态：<el-input type="number" v-model="form.status" ></el-input>
+                </div>
+                <div class="item">
+                    描述：<input type="text" v-model="form.description" ></el-input>
+                </div>
+                <div class="item">
+                    起点：<input type="text" v-model="form.firstPosition" ></el-input>
+                    <el-button @click="fill('firstPosition')" type="text" >点击获取</el-button>
+                </div>
+                <div class="item">
+                    终点：<input type="text" v-model="form.lastPosition" ></el-input>
+                    <el-button @click="fill('lastPosition')" type="text" >点击获取</el-button>
+                </div>
+                <div class="item">
+                    距离：{{distance / 1000}} km
+                </div>
+                <el-button type="button" @click="drawPath">规划路线</el-button>
+                <el-button type="button" @click="myPath">自定义路线</el-button>
+                <el-button type="button" @click="submit">保存</el-button>
+            </div>
+        </div>
+        <script>
+            
+            new Vue({
+                el: '#app',
+                data: function() {
+                    return { 
+                        map: null,
+                        route: null,
+                        type: null,
+                        form: {
+                            name: '',
+                            description: '',
+                            firstPosition: '',
+                            lastPosition: '',
+                            status: 1,
+                            index: 0
+                        },
+                        distance: null,
+                        polyEditor: null,
+                        editablePolyline: null,
+                        startMarker: null,
+                        lastMarker: null,
+                    }
+                },
+                mounted() {
+                    this.map = new AMap.Map("container", {
+                        resizeEnable: true
+                    });
+                    // 初始化AMap.DragRoute插件
+                    this.map.plugin("AMap.DragRoute", function() {});
+                    // 点击地图拾取坐标
+                    this.map.on('click', (e) => {
+                        let { lng, lat } = e.lnglat;
+                        if(this.type) {
+                            this.form[this.type] = `${lng},${lat}`;
+                            this.type = null;
+                        }
+                    });
+                    // 从URL获取参数
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const firstPositionParam = urlParams.get('firstPosition');
+                    const nameParam = urlParams.get('name');
+                    const index = urlParams.get('index');
+                    const description = urlParams.get('description');
+                    
+                    // 如果参数存在，则更新表单数据
+                    if (firstPositionParam) {
+                        this.form.firstPosition = firstPositionParam;
+                        // 将起点设置为地图中心
+                        const [lng, lat] = firstPositionParam.split(',');
+                        // 创建标记
+                        this.startMarker = new AMap.Marker({
+                            position: new AMap.LngLat(parseFloat(lng), parseFloat(lat)),
+                            title: '起点',
+                            anchor: 'bottom-center',
+                            icon: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+                        });
+                        // 将标记添加到地图
+                        this.map.add(this.startMarker);
+                        this.map.setCenter([parseFloat(lng), parseFloat(lat)]);
+                    }
+                    if (nameParam) {
+                        this.form.name = nameParam;
+                        this.form.index = index || 0;
+                        this.form.description = description || "";
+                    }
+                    
+                },
+                methods: {
+                    drawPath() {
+                        // 87.02526,48.696618
+                        this.map.clearMap();
+                        const { firstPosition, lastPosition } = this.form;
+                        if (firstPosition && lastPosition) {
+                            this.route?.destroy();
+                            let path = [firstPosition.split(','), lastPosition.split(',')];
+                            this.route = new AMap.DragRoute(
+                                this.map, 
+                                path, 
+                                AMap.DrivingPolicy.LEAST_FEE,
+                                // AMap.DrivingPolicy.LEAST_DISTANCE,
+                                {
+                                    showTraffic: false,
+                                    polyOptions: {
+                                        strokeWeight: 4,
+                                        strokeOpacity: 0.6,
+                                    }
+                                }
+                            );
+                            this.route.on('complete', (e) => {
+                                console.log(e.data.routes[0].distance, 2222);
+                                let { distance } = e.data.routes[0];
+                                console.log(distance/1000, 'km');
+                                this.distance = distance;
+                            })
+                            this.route.search();
+                            // var distance = Math.round(AMap.GeometryUtil.distanceOfLine(arr));
+                        }
+                    },
+                    fill(actionType = 'firstPosition') {
+                        this.type = actionType;
+                    },
+                    myPath() {
+                        // 创建可编辑折线
+                        const { firstPosition, lastPosition } = this.form;
+                        if (firstPosition && lastPosition) {
+                            // 清除现有的路线
+                            if (this.editablePolyline) {
+                                this.map.remove(this.editablePolyline);
+                            }
+                            
+                            // 创建路径数组
+                            const path = [
+                                firstPosition.split(',').map(Number),
+                                lastPosition.split(',').map(Number)
+                            ];
+                            
+                            // 创建可编辑折线
+                            this.editablePolyline = new AMap.Polyline({
+                                path: path,
+                                isOutline: true,
+                                outlineColor: '#ffeeff',
+                                borderWeight: 3,
+                                strokeColor: "#3366FF", 
+                                strokeOpacity: 1,
+                                strokeWeight: 3,
+                                strokeStyle: "solid",
+                                strokeDasharray: [10, 5],
+                                lineJoin: 'round',
+                                lineCap: 'round',
+                                zIndex: 50,
+                                editingTool: true,
+                                // draggable: true
+                            });
+                            
+                            // 将折线添加到地图
+                            this.map.add(this.editablePolyline);
+                            
+                            // 缩放地图以适应折线
+                            this.map.setFitView();
+                            this.polyEditor = new AMap.PolylineEditor(this.map, this.editablePolyline);
+                            this.polyEditor.setTarget(this.editablePolyline);
+                            this.polyEditor.open();
+                            
+                            
+                        }
+                    },
+                    async submit() {
+                        const { name, description, index, status } = this.form;
+                        // const { distance } = this;
+                        let distance;
+                        let paths = [];
+                        if (this.polyEditor) {
+                            paths = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
+                            distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
+                        } else {
+                            paths = this.route.getRoute().map(item => [item.lng, item.lat]);
+                            distance = this.distance;
+                        }
+                        // console.log(paths);
+                        // let res = await fetch('./data/no.json');
+                        // paths = await res.json()
+                        // console.log(paths,2222);
+                        // var distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
+                        // console.log(distance, 898);
+                        // return;
+                        let data = {
+                            name,
+                            description,
+                            index,
+                            paths,
+                            distance,
+                            status,
+                        }
+                        fetch(`https://road.h5cssjs.com/submit`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // "Authorization": Authorization,
+                            },
+                            body: JSON.stringify(data)
+                        }).then(res => res.json()).then(data => {
+                            console.log(data);
+                            this.$message({
+                                message: '保存成功',
+                                type: 'success'
+                            });
+                        })
+                    },
+
+                }
+            })
+
+        </script>
+    </body>
+</html>

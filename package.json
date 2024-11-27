@@ -1,0 +1,18 @@
+{
+  "name": "road-admin",
+  "version": "1.0.0",
+  "description": "国道地图管理端",
+  "main": "pako.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-little-db": "^1.1.4",
+    "nodemon": "^3.1.7"
+  }
+}

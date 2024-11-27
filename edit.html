@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+        <title>可拖拽的路线规划</title>
+        <link rel="stylesheet" type="text/css" href="./index.css"/>
+        <!-- 重要，请到 https://console.amap.com 申请 JS API 的 key和密钥 -->
+        <script> 
+            window._AMapSecurityConfig = {
+            securityJsCode: '290ddc4b0d33be7bc9b354bc6a4ca614',
+            }
+        </script>
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+        <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=6f025e700cbacbb0bb866712d20bb35c&plugin=AMap.PolylineEditor"></script>
+        <!-- <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script> -->
+        <script src="./lib/pako.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div id="container"></div>
+            <div class="tools">
+                <div class="item">
+                    名称：<el-input type="text" v-model="form.name" ></el-input>
+                </div>
+                <div class="item">
+                    序号：<el-input type="number" v-model="form.index" ></el-input>
+                </div>
+                <div class="item">
+                    状态：<el-input type="number" v-model="form.status" ></el-input>
+                </div>
+                <div class="item">
+                    描述：<input type="text" v-model="form.description" ></el-input>
+                </div>
+                <div class="item">
+                    起点：<input type="text" v-model="form.firstPosition" ></el-input>
+                    <el-button @click="fill('firstPosition')" type="text" >点击获取</el-button>
+                </div>
+                <div class="item">
+                    终点：<input type="text" v-model="form.lastPosition" ></el-input>
+                    <el-button @click="fill('lastPosition')" type="text" >点击获取</el-button>
+                </div>
+                <div class="item">
+                    距离：{{distance / 1000}} km
+                </div>
+                <el-button type="button" @click="submit">保存</el-button>
+            </div>
+        </div>
+        <script>
+            
+            new Vue({
+                el: '#app',
+                data: function() {
+                    return { 
+                        map: null,
+                        route: null,
+                        type: null,
+                        form: {
+                            _id: '',
+                            name: '',
+                            description: '',
+                            firstPosition: '',
+                            lastPosition: '',
+                        },
+                        distance: null,
+                        polyEditor: null,
+                        editablePolyline: null,
+                    }
+                },
+                mounted() {
+                    this.map = new AMap.Map("container", {
+                        resizeEnable: true
+                    });
+                    // 初始化AMap.DragRoute插件
+                    this.map.plugin("AMap.DragRoute", function() {});
+                    // 点击地图拾取坐标
+                    this.map.on('click', (e) => {
+                        let { lng, lat } = e.lnglat;
+                        if(this.type) {
+                            this.form[this.type] = `${lng},${lat}`;
+                            this.type = null;
+                        }
+                    });
+                    // 从URL获取参数
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const _id = urlParams.get('_id');
+                    const nameParam = urlParams.get('name');
+                    
+                    this.form.name = nameParam;
+                    this.form._id = _id;
+
+                    this.handleDetail();
+                    
+                    
+                },
+                methods: {
+                    handleDetail() {
+                        let { name, _id } = this.form;
+                        fetch(`https://road.h5cssjs.com/detail/${name}/${_id}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            this.form = data;
+                            this.myPath();
+                        })
+                        .catch(error => {
+                            console.error('获取详情失败:', error);
+                        });
+                    },
+                    
+                    myPath() {
+                        // 创建可编辑折线
+                        // 清除现有的路线
+                        if (this.editablePolyline) {
+                            this.map.remove(this.editablePolyline);
+                        }
+                        
+                        // 创建路径数组
+                        let path = JSON.parse(pako.inflate(this.form.paths, { to: 'string' }));
+                        
+                        // 创建可编辑折线
+                        this.editablePolyline = new AMap.Polyline({
+                            path: path,
+                            // isOutline: true,
+                            // outlineColor: '#ffeeff',
+                            // borderWeight: 3,
+                            strokeColor: "#3366FF", 
+                            strokeOpacity: 1,
+                            strokeWeight: 1,
+                            strokeStyle: "solid",
+                            strokeDasharray: [10, 5],
+                            lineJoin: 'round',
+                            lineCap: 'round',
+                            zIndex: 50,
+                            editingTool: true,
+                            // draggable: true
+                        });
+                        
+                        // 将折线添加到地图
+                        this.map.add(this.editablePolyline);
+                        
+                        // 缩放地图以适应折线
+                        this.map.setFitView();
+                        this.polyEditor = new AMap.PolylineEditor(this.map, this.editablePolyline);
+                        this.polyEditor.setTarget(this.editablePolyline);
+                        this.polyEditor.open();
+                    },
+                    async submit() {
+                        const { _id, name, description, index, status } = this.form;
+                        let paths = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
+                        // console.log(paths);
+                        // let res = await fetch('./data/no.json');
+                        // paths = await res.json()
+                        // console.log(paths,2222);
+                        var distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
+                        
+                        let data = {
+                            _id,
+                            name,
+                            description,
+                            index,
+                            paths,
+                            distance,
+                            status,
+                        }
+                        fetch(`https://road.h5cssjs.com/update`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // "Authorization": Authorization,
+                            },
+                            body: JSON.stringify(data)
+                        }).then(res => res.json()).then(data => {
+                            console.log(data);
+                            this.$message({
+                                message: '保存成功',
+                                type: 'success'
+                            });
+                        })
+                    },
+
+                }
+            })
+
+        </script>
+    </body>
+</html>
