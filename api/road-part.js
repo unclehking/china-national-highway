@@ -20,7 +20,7 @@ function addPath(req, res) {
         console.log('POST数据：', body);
         let postData = JSON.parse(body);
 
-        let { index, description, coordinates, road, distance } = postData;
+        let { index, description, coordinates, road, distance, status } = postData;
         console.log(index, description, coordinates, road, distance);
         
         const Part = db.use(
@@ -38,6 +38,7 @@ function addPath(req, res) {
                         description,
                         road,
                         distance,
+                        status,
                     }
                 }
             }
@@ -53,45 +54,27 @@ function addPath(req, res) {
     
     
 }
-//获取某国道所有part
-function getRoadParts(req, res) {
+//删除road part
+function removeRoadPart(req, res) {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const params = new URLSearchParams(url.search);
-    const roadName = params.get('roadName');
-    console.log(roadName);
+    const partName = params.get('partName');
+    const roadName = partName.split('-')[0];
+    console.log(partName);
     try {
-        // 获取roadName文件夹下所有文件
-        const files = fs.readdirSync(path.join(__dirname, `../db/${roadName}/`));
-        console.log('files:', files);
-        const list = files.map(file => {
-            const filePath = path.join(__dirname, `../db/${roadName}/${file}`);
-            const content = fs.readFileSync(filePath, 'utf8');
-            const data = JSON.parse(content);
-            let { coordinates } = data.geometry;
-            return {
-                _id: file.replace('.json', ''),
-                name: roadName,
-                description: data.properties.description,
-                distance: data.properties.distance,
-                index: data.properties.index,
-                firstPoint: coordinates[0],
-                lastPoint: coordinates[coordinates.length - 1],
-            };
-        });
+        const filePath = path.join(__dirname, `../db/${roadName}`, partName+'.json');
+        fs.unlinkSync(filePath);
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
             status: 1,
-            message: '新增成功',
-            list
+            message: '删除成功',
         }));
     } catch (error) {
-        console.log(error);
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
             status: 1,
-            list: [],
+            message: '删除失败',
         }));
-        
     }
   
 }
@@ -99,5 +82,5 @@ function getRoadParts(req, res) {
 module.exports = {
     roadList,
     addPath,
-    getRoadParts,
+    removeRoadPart,
 };

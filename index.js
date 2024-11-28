@@ -6,24 +6,35 @@ const os = require('os');
 const port = 3000; // 服务器端口
 const hostname = '127.0.0.1'; // 服务器地址
 const directory = path.join(__dirname, './'); // 静态文件目录
-const Api = require('./api/index')
+const Api = require('./api/index');
+const RoadPart = require('./api/road-part');
 
 
 const server = http.createServer((req, res) => {
     console.log(req.url,11111);
     // api
     if (req.url.includes('/api')) {
-        switch (req.url) {
-            case '/api/roadList':
-                Api.roadList(req, res);
-                break;
-            default:
-                res.writeHead(404, 'Not Found');
-                res.end('404 Not Found');
-                break;
+        if (/roadList/.test(req.url)) {
+            Api.roadList(req, res);
+        } 
+        else if (/getRoadParts/.test(req.url)) {
+            Api.getRoadParts(req, res);
+        } 
+        else if (/addPath/.test(req.url)) {
+            RoadPart.addPath(req, res);
+        } 
+        else if (/removeRoadPart/.test(req.url)) {
+            RoadPart.removeRoadPart(req, res);
+        } 
+        else {
+            res.writeHead(404, 'Not Found');
+            res.end('404 Not Found');
         }
+        
     }else {
-        const filePath = path.join(directory, req.url);
+        const filePath = path.join(directory, req.url.split('?')[0]);
+        console.log(filePath, 222);
+        
         fs.access(filePath, fs.constants.F_OK, (err) => {
             if (err) {
                 res.writeHead(404, 'Not Found');

@@ -37,54 +37,16 @@
                         <div class="sort-handle">{{ scope.row.index }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="_id" label="ID" width="250" align="center"></el-table-column>
+                <el-table-column prop="_id" label="ID" width="160" align="center"></el-table-column>
                 <el-table-column prop="name" label="名称" width="70" align="center" ></el-table-column>
                 <el-table-column prop="distance" label="里程(m)"  width="100"></el-table-column>
                 <el-table-column prop="description" label="描述"  ></el-table-column>
                 <!-- <el-table-column prop="timeString" label="日期"   ></el-table-column> -->
-                <el-table-column prop="firstPosition" label="起点位置" width="220">
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.firstPosition" >
-                            <span>{{ scope.row.firstPosition }}</span>
-                            <el-button
-                                size="mini"
-                                icon="el-icon-document-copy"
-                                type="text"
-                                @click="copyToClipboard(scope.row.firstPosition)"
-                            ></el-button>
-                        </div>
-                        <div v-else>
-                            <el-button
-                                size="mini"
-                                type="text"
-                                @click="handleDetail(scope.row)"
-                            >
-                                获取
-                            </el-button>
-                        </div>
-                    </template>
+                <el-table-column prop="firstPoint" label="起点位置" width="220">
+                    
                 </el-table-column>
-                <el-table-column prop="lastPosition" label="终点位置" width="220">
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.lastPosition" >
-                            <span>{{ scope.row.lastPosition }}</span>
-                            <el-button
-                                size="mini"
-                                icon="el-icon-document-copy"
-                                type="text"
-                                @click="copyToClipboard(scope.row.lastPosition)"
-                            ></el-button>
-                        </div>
-                        <div v-else>
-                            <el-button
-                                size="mini"
-                                type="text"
-                                @click="handleDetail(scope.row)"
-                            >
-                                获取
-                            </el-button>
-                        </div>
-                    </template>
+                <el-table-column prop="lastPoint" label="终点位置" width="220">
+                    
                 </el-table-column>
                 <el-table-column label="操作" width="380" >
                     <template slot-scope="scope">
@@ -106,8 +68,7 @@
                         <el-button
                             size="mini"
                             type="success"
-                            :disabled="!scope.row.lastPosition"
-                            @click="goToAddPage(scope.row.lastPosition, scope.row.index, scope.row.description)"
+                            @click="goToAddPage(scope.row.lastPoint, scope.row.index, scope.row.description)"
                         >
                             从此处添加
                         </el-button>
@@ -171,11 +132,10 @@
             methods: {
                 loadRoadPaths() {
                     let { name } = this;
-                    fetch(`https://road.h5cssjs.com/getRoads/${name}`)
+                    fetch(`/api/getRoadParts?roadName=${name}`)
                     .then(res => res.json())
-                    .then(data => {
-                        console.log(data);
-                        this.tableData = data.map(item => {
+                    .then(res => {
+                        this.tableData = res.list.map(item => {
                             item.distance = item.distance?.toLocaleString();
                             if (item.status === 0) {
                                 item.description = item.description + `(在建)`;
@@ -183,10 +143,11 @@
                             if (item.status === 2) {
                                 item.description = item.description + `(高速)`;
                             }
+                            item.firstPoint = item.firstPoint.join();
+                            item.lastPoint = item.lastPoint.join();
                             return item;
                         });
-                        this.handleDetail(data.at(-1));
-                    })
+                    });
                 },
                 handleDelete(row) {
                     this.$confirm('确认删除该路径?', '提示', {
@@ -196,12 +157,12 @@
                     }).then(() => {
                         let { name } = this;
                         let { _id } = row;
-                        fetch(`https://road.h5cssjs.com/remove/${name}/${_id}`)
+                        fetch(`/api/removeRoadPart?partName=${_id}`)
                         .then(res => res.json())
                         .then(data => {
                             this.$message({
                                 type: 'success',
-                                message: data.Message
+                                message: data.message
                             });
                             // 删除成功后重新获取数据
                             this.loadRoadPaths();
@@ -248,8 +209,8 @@
                 goToAddPage(firstPosition = '', index=0, description='') {
                     const url = new URL('/drage-route.html', window.location.origin);
                     url.searchParams.append('name', this.name);
-                    url.searchParams.append('firstPosition', firstPosition);
-                    url.searchParams.append('index', index + 1);
+                    typeof firstPosition !=='object' && url.searchParams.append('firstPosition', firstPosition);
+                    url.searchParams.append('index', Number(index) + 1);
                     url.searchParams.append('description', description.split('-')[1] || description.split('-')[0] || '');
                     // window.location.href = url.toString();
                     window.open(url.toString());

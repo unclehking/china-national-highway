@@ -24,7 +24,7 @@
             <div id="container"></div>
             <div class="tools">
                 <div class="item">
-                    名称：<el-input type="text" v-model="form.name" ></el-input>
+                    名称：<el-input type="text" v-model="form.road" ></el-input>
                 </div>
                 <div class="item">
                     序号：<el-input type="number" v-model="form.index" ></el-input>
@@ -61,7 +61,7 @@
                         route: null,
                         type: null,
                         form: {
-                            name: '',
+                            road: '',
                             description: '',
                             firstPosition: '',
                             lastPosition: '',
@@ -113,7 +113,7 @@
                         this.map.setCenter([parseFloat(lng), parseFloat(lat)]);
                     }
                     if (nameParam) {
-                        this.form.name = nameParam;
+                        this.form.road = nameParam;
                         this.form.index = index || 0;
                         this.form.description = description || "";
                     }
@@ -199,15 +199,15 @@
                         }
                     },
                     async submit() {
-                        const { name, description, index, status } = this.form;
+                        const { road, description, index, status } = this.form;
                         // const { distance } = this;
                         let distance;
-                        let paths = [];
+                        let coordinates = [];
                         if (this.polyEditor) {
-                            paths = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
+                            coordinates = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
                             distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
                         } else {
-                            paths = this.route.getRoute().map(item => [item.lng, item.lat]);
+                            coordinates = this.route.getRoute().map(item => [item.lng, item.lat]);
                             distance = this.distance;
                         }
                         // console.log(paths);
@@ -218,14 +218,14 @@
                         // console.log(distance, 898);
                         // return;
                         let data = {
-                            name,
+                            road,
                             description,
                             index,
-                            paths,
+                            coordinates,
                             distance,
                             status,
                         }
-                        fetch(`https://road.h5cssjs.com/submit`, {
+                        fetch(`/api/addPath`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

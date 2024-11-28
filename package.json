@@ -1,8 +1,8 @@
 {
   "name": "road-admin",
   "version": "1.0.0",
-  "description": "国道地图管理端",
-  "main": "pako.js",
+  "description": "国道地图数据采集端",
+  "main": "index.js",
   "directories": {
     "lib": "lib"
   },
