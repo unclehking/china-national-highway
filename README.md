@@ -12,6 +12,6 @@
 ### 贡献(采集)方式
 本项目集成了基于高德地图jsapi的采集网页：  
 1、```git clone https://github.com/unclehking/china-national-highway.git```  
-2、```cd china-national-highway.git```  
+2、```cd china-national-highway```  
 3、```npm install```  
 4、```npm run start```  
