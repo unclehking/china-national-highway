@@ -229,8 +229,9 @@
                     // return
                     
                     // url.searchParams.append('name', name);
-                    url.hash = `#${name}`;
+                    // url.hash = `#${name}`;
                     _id && url.searchParams.append('id', _id);
+                    name && url.searchParams.append('name', name);
                     // window.location.href = url.toString();
                     window.open(url.toString());
                 },

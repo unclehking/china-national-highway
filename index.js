@@ -26,6 +26,9 @@ const server = http.createServer((req, res) => {
         else if (/removeRoadPart/.test(req.url)) {
             RoadPart.removeRoadPart(req, res);
         } 
+        else if (/getRoadDetail/.test(req.url)) {
+            Api.getRoadDetail(req, res);
+        } 
         else {
             res.writeHead(404, 'Not Found');
             res.end('404 Not Found');

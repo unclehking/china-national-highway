@@ -96,8 +96,22 @@ function getRoadParts(req, res) {
   
 }
 
+//获取道路详情
+function getRoadDetail(req, res) {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const params = new URLSearchParams(url.search);
+    const roadName = params.get('roadName');
+    const partId = params.get('partId');
+    const filePath = path.join(__dirname, `../db/${roadName}/${partId}.json`);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(content);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(JSON.stringify(data));
+}
+
 module.exports = {
     roadList,
     addPath,
     getRoadParts,
+    getRoadDetail,
 };

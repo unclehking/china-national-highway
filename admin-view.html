@@ -155,10 +155,13 @@
             }
 
             function getData(id='', flag = null) {
-                fetch(`https://road.h5cssjs.com/detail/${name}/${id}`)
+                fetch(`/api/getRoadDetail?roadName=${name}&partId=${id}`)
+                // fetch(`https://road.h5cssjs.com/detail/${name}/${id}`)
                 .then(res => res.json())
                 .then(data => {
-                    let paths = data.paths;
+                    console.log(data, 33333);
+                    
+                    let paths = data.geometry.coordinates;
                     let strokeStyle = data.status === 0 ? 'dashed' : 'solid';
                     let strokeColor = data.status === 2 ? 'green' : 'red';
                     drawPath(paths, strokeStyle, strokeColor);
@@ -244,20 +247,7 @@
                 getHash();
             }
 
-            function selectRoad() {
-                wx.miniProgram.navigateTo({url: '/pages/select-road/index'});
-            }
-            function roadInfo() {
-                wx.miniProgram.navigateTo({url: `/pages/info/index?name=${name}` });
-            }
-
-            // db.roads.insertMany(
-            //     [
-            //         { "name": "G315", "status": 1, "description": "西宁-喀什", "index": 14 }, 
-            //     ]
-            // );
-
-
+            
         </script>
     </body>
 
