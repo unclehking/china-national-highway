@@ -81,7 +81,7 @@ function getRoadParts(req, res) {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
             status: 1,
-            message: '新增成功',
+            message: '请求成功',
             list
         }));
     } catch (error) {

@@ -131,13 +131,6 @@
             var name = urlParams.get('name');
             var id = urlParams.get('id');
             
-            function getHash() {
-                name = location.hash.replace(/#/g, '');
-                // document.querySelector("#btn").innerHTML = name;
-                // console.log(document.querySelector("#btn"));
-                getRoads();
-            }
-            window.addEventListener('hashchange', getHash)
 
             var polyEditor;
             var map = new AMap.Map('container', {
@@ -147,12 +140,6 @@
                 center: [104.50,36.53]
             });
 
-            function roadChange(e) {
-                // console.log(e.value, 111);
-                // name = e.value;
-                location.href = `#${e.value}`;
-                // getRoads();
-            }
 
             function getData(id='', flag = null) {
                 fetch(`/api/getRoadDetail?roadName=${name}&partId=${id}`)
@@ -205,17 +192,13 @@
                 });
             }
             function getRoads() {
-                fetch(`https://road.h5cssjs.com/getRoads/${name}`)
+                fetch(`/api/getRoadParts?roadName=${name}`)
+                // fetch(`https://road.h5cssjs.com/getRoads/${name}`)
                 .then(res => res.json())
                 .then(res => {
                     map.clearMap()
-                    // for (const section of res) {
-                    //     console.log(section, 333333);
-                    //     getData(section._id);
-                    // };
-                    res.forEach((section, index) => {
-                        let flag = index === 0 ? 'first' : index === (res.length - 1) ? 'last' : null;
-                        getData(section._id, flag);
+                    res.list.forEach(item => {
+                        getData(item._id);
                     });
                 });
             }
@@ -244,7 +227,7 @@
                 map.clearMap();
                 getData(id);
             }else{
-                getHash();
+                getRoads();
             }
 
             
