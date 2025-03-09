@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node index.js --open",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js --open"
   },
   "author": "",
   "license": "ISC",
