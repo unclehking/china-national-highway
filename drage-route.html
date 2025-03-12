@@ -24,31 +24,33 @@
             <div id="container"></div>
             <div class="tools">
                 <div class="item">
-                    名称：<el-input type="text" v-model="form.road" ></el-input>
+                    名称：<el-input type="text" size="small" v-model="form.road" ></el-input>
                 </div>
                 <div class="item">
-                    序号：<el-input type="number" v-model="form.index" ></el-input>
+                    序号：<el-input type="number" size="small" v-model="form.index" ></el-input>
                 </div>
                 <div class="item">
-                    状态：<el-input type="number" v-model="form.status" ></el-input>
+                    状态：<el-input type="number" size="small" v-model="form.status" ></el-input>
                 </div>
                 <div class="item">
-                    描述：<input type="text" v-model="form.description" ></el-input>
+                    描述：<input type="text" size="small" v-model="form.description" ></el-input>
                 </div>
                 <div class="item">
-                    起点：<input type="text" v-model="form.firstPosition" ></el-input>
+                    起点：<input type="text" size="small" v-model="form.firstPosition" ></el-input>
                     <el-button @click="fill('firstPosition')" type="text" >点击获取</el-button>
                 </div>
                 <div class="item">
-                    终点：<input type="text" v-model="form.lastPosition" ></el-input>
+                    终点：<input type="text" size="small" v-model="form.lastPosition" ></el-input>
                     <el-button @click="fill('lastPosition')" type="text" >点击获取</el-button>
                 </div>
                 <div class="item">
                     距离：{{distance / 1000}} km
                 </div>
-                <el-button type="button" @click="drawPath">规划路线</el-button>
-                <el-button type="button" @click="myPath">自定义路线</el-button>
-                <el-button type="button" @click="submit">保存</el-button>
+                <div style="display: flex; gap:4px;margin: 10px 0;">
+                    <el-button type="button" size="small" @click="drawPath">规划路线</el-button>
+                    <el-button type="button" size="small" @click="myPath">自定义路线</el-button>
+                </div>
+                <el-button type="primary" @click="submit" style="width: 100%;">保存</el-button>
             </div>
         </div>
         <script>
