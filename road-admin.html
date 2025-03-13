@@ -135,6 +135,7 @@
                     fetch(`/api/getRoadParts?roadName=${name}`)
                     .then(res => res.json())
                     .then(res => {
+                        res.list.sort((a, b) => a.index - b.index);
                         this.tableData = res.list.map(item => {
                             item.distance = item.distance?.toLocaleString();
                             if (item.status === 0) {
