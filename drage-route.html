@@ -88,6 +88,42 @@
                         let { lng, lat } = e.lnglat;
                         if(this.type) {
                             this.form[this.type] = `${lng},${lat}`;
+                            
+                            // 创建marker的图标
+                            const iconStart = new AMap.Icon({
+                                size: new AMap.Size(19, 31),
+                                image: "https://webapi.amap.com/theme/v1.3/markers/b/start.png",
+                                imageSize: new AMap.Size(19, 31),
+                            });
+                            const iconEnd = new AMap.Icon({
+                                size: new AMap.Size(19, 31),
+                                image: "https://webapi.amap.com/theme/v1.3/markers/b/end.png",
+                                imageSize: new AMap.Size(19, 31),
+                            });
+                            // 移除已存在的对应marker
+                            if (this.type === 'firstPosition' && this.startMarker) {
+                                this.map.remove(this.startMarker);
+                            } else if (this.type === 'lastPosition' && this.lastMarker) {
+                                this.map.remove(this.lastMarker);
+                            }
+                            
+                            // 创建新的marker
+                            const marker = new AMap.Marker({
+                                position: new AMap.LngLat(lng, lat),
+                                title: this.type === 'firstPosition' ? '起点' : '终点',
+                                anchor: 'bottom-center',
+                                icon: this.type === 'firstPosition' ? iconStart : iconEnd,
+                            });
+                            
+                            // 将marker添加到地图并保存引用
+                            this.map.add(marker);
+                            if (this.type === 'firstPosition') {
+                                this.startMarker = marker;
+                            } else if (this.type === 'lastPosition') {
+                                this.lastMarker = marker;
+                            }
+                            
+                            console.log(this.type);
                             this.type = null;
                         }
                     });
@@ -103,12 +139,19 @@
                         this.form.firstPosition = firstPositionParam;
                         // 将起点设置为地图中心
                         const [lng, lat] = firstPositionParam.split(',');
+                        const icon = new AMap.Icon({
+                            size: new AMap.Size(19, 31), //图标尺寸
+                            // image: "//a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png", //Icon 的图像
+                            image: "https://webapi.amap.com/theme/v1.3/markers/b/start.png", //Icon 的图像
+                            imageSize: new AMap.Size(19, 31), //根据所设置的大小拉伸或压缩图片
+                        });
                         // 创建标记
                         this.startMarker = new AMap.Marker({
                             position: new AMap.LngLat(parseFloat(lng), parseFloat(lat)),
                             title: '起点',
                             anchor: 'bottom-center',
-                            icon: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+                            icon,
+                            
                         });
                         // 将标记添加到地图
                         this.map.add(this.startMarker);
@@ -132,8 +175,10 @@
                             this.route = new AMap.DragRoute(
                                 this.map, 
                                 path, 
-                                AMap.DrivingPolicy.LEAST_FEE,
-                                // AMap.DrivingPolicy.LEAST_DISTANCE,
+                                // AMap.DrivingPolicy.LEAST_FEE,
+                                AMap.DrivingPolicy.LEAST_DISTANCE,
+                                // AMap.DrivingPolicy.LEAST_TIME,
+                                // AMap.DrivingPolicy.LEAST_FEE,
                                 {
                                     showTraffic: false,
                                     polyOptions: {
