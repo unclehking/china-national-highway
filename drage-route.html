@@ -12,9 +12,10 @@
             securityJsCode: '290ddc4b0d33be7bc9b354bc6a4ca614',
             }
         </script>
-        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-        <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
-        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        
+        <link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui/lib/theme-chalk/index.css">
+        <script src="https://unpkg.zhimg.com/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.zhimg.com/element-ui/lib/index.js"></script>
         <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
         <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=6f025e700cbacbb0bb866712d20bb35c&plugin=AMap.PolylineEditor"></script>
         <!-- <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script> -->
@@ -247,23 +248,15 @@
                     },
                     async submit() {
                         const { road, description, index, status } = this.form;
-                        // const { distance } = this;
                         let distance;
                         let coordinates = [];
                         if (this.polyEditor) {
                             coordinates = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
-                            distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
+                            distance = Math.round(AMap.GeometryUtil.distanceOfLine(coordinates));
                         } else {
                             coordinates = this.route.getRoute().map(item => [item.lng, item.lat]);
                             distance = this.distance;
                         }
-                        // console.log(paths);
-                        // let res = await fetch('./data/no.json');
-                        // paths = await res.json()
-                        // console.log(paths,2222);
-                        // var distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
-                        // console.log(distance, 898);
-                        // return;
                         let data = {
                             road,
                             description,
