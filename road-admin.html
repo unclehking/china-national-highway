@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui/lib/theme-chalk/index.css">
         <style>
             .sort-handle{
                 cursor: row-resize;
@@ -21,6 +21,7 @@
                         :value="road">
                     </el-option>
                 </el-select>
+                <el-button type="primary" @click="handleMerge" v-if="selectedRows.length > 1">合并</el-button>
                 <el-button type="primary" @click="goToAddPage">新增</el-button>
                 <el-button type="primary" @click="previewAll">预览{{name}}全里程</el-button>
             </div>
@@ -31,7 +32,9 @@
                 row-key="_id"
                 class="draggable-table"
                 height="calc(100vh - 80px)"
+                @selection-change="handleSelectionChange"
             >
+                <el-table-column type="selection" width="55"></el-table-column>
                 <!-- <el-table-column type="index" width="50"></el-table-column> -->
                 <el-table-column prop="index" label="序号" width="70" align="center">
                     <template slot-scope="scope">
@@ -85,10 +88,12 @@
             </el-table>
         </div>
     </body>
-    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://unpkg.com/sortablejs@1.15.3/Sortable.min.js"></script>
+    <script src="https://unpkg.zhimg.com/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.zhimg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.zhimg.com/sortablejs@1.15.3/Sortable.min.js"></script>
     <script src="./lib/pako.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=6f025e700cbacbb0bb866712d20bb35c&plugin=AMap.PolylineEditor"></script>
+
 
     <script>
         new Vue({
@@ -99,6 +104,7 @@
                     tableData: [],
                     detail: {},
                     drag: false,
+                    selectedRows: [],
                     roads: [
                         'G101',
                         'G213', 'G219', 'G228',
@@ -171,30 +177,7 @@
                         })
                     })
                 },
-                handleDetail(row) {
-                    let { name } = this;
-                    let { _id } = row;
-                    fetch(`https://road.h5cssjs.com/detail/${name}/${_id}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log('路径详情:', data);
-                        let paths = JSON.parse(pako.inflate(data.paths, { to: 'string' }));
-                        let firstPosition = paths[0].join();
-                        let lastPosition = paths.at(-1).join();
-                        data.paths = paths;
-                        this.detail = data;
-                        console.log(this.detail);
-                        // 使用find找到tableData中_id等于data._id的项，并添加firstPosition和lastPosition
-                        const item = this.tableData.find(item => item._id === data._id);
-                        if (item) {
-                            this.$set(item, 'firstPosition', firstPosition);
-                            this.$set(item, 'lastPosition', lastPosition);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('获取详情失败:', error);
-                    });
-                },
+                
                 copyToClipboard(text) {
                     navigator.clipboard.writeText(text).then(() => {
                         this.$message({
@@ -274,7 +257,94 @@
                     this.loadRoadPaths();
                     location.href = `#${road}`;
                 },
+                handleSelectionChange(val) {
+                    this.selectedRows = val;
+                },
+                async handleMerge() {
+                    if (this.selectedRows.length < 2) {
+                        this.$message.warning('请至少选择两条路径进行合并');
+                        return;
+                    }
 
+                    try {
+                        // 获取所有选中行的详细数据
+                        const detailPromises = this.selectedRows.map(row => 
+                            fetch(`/api/getRoadDetail?roadName=${this.name}&partId=${row._id}`)
+                                .then(res => res.json())
+                                .then(data => {
+                                    return {
+                                        _id: row._id,
+                                        paths: data.geometry.coordinates
+                                    };
+                                })
+                        );
+
+                        const details = await Promise.all(detailPromises);
+                        
+                        // 合并所有路径
+                        const mergedCoordinates = details.reduce((acc, curr) => {
+                            return acc.concat(curr.paths);
+                        }, []);
+
+                        // 计算合并后的总距离
+                        const totalDistance = mergedCoordinates.reduce((acc, curr, index, array) => {
+                            if (index === 0) return 0;
+                            const prev = array[index - 1];
+                            const distance = this.calculateDistance(prev[0], prev[1], curr[0], curr[1]);
+                            return acc + distance;
+                        }, 0);
+
+                        const distance = Math.round(AMap.GeometryUtil.distanceOfLine(mergedCoordinates));
+
+                        // 准备更新数据
+                        const targetRow = this.selectedRows[0];
+                        const lastRow = this.selectedRows[this.selectedRows.length - 1];
+                        const data = {
+                            road: this.name,
+                            description: targetRow.description.split('-')[0]+'-'+(lastRow.description.split('-')[1] || lastRow.description.split('-')[0]),
+                            index: targetRow.index,
+                            coordinates: mergedCoordinates,
+                            distance: distance,
+                            status: targetRow.status || 1
+                        };
+
+                        // 删除其他记录
+                        const deletePromises = this.selectedRows.map(row =>
+                            fetch(`/api/removeRoadPart?partName=${row._id}`)
+                                .then(res => res.json())
+                        );
+
+                        await Promise.all(deletePromises);
+
+                        // 更新第一条记录
+                        await fetch(`/api/addPath`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data)
+                        }).then(res => res.json());
+
+                        
+
+                        this.$message.success('路径合并成功');
+                        this.loadRoadPaths();
+                    } catch (error) {
+                        console.error('合并失败:', error);
+                        this.$message.error('合并失败，请重试');
+                    }
+                },
+                // 计算两点之间的距离（米）
+                calculateDistance(lng1, lat1, lng2, lat2) {
+                    const radLat1 = lat1 * Math.PI / 180.0;
+                    const radLat2 = lat2 * Math.PI / 180.0;
+                    const a = radLat1 - radLat2;
+                    const b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+                    let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + 
+                        Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+                    s = s * 6378137.0; // 地球半径
+                    return Math.round(s);
+                },
             }
         })
         // db.G219.updateOne(
