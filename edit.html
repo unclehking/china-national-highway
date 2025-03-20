@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-        <title>可拖拽的路线规划</title>
+        <title>编辑路线</title>
         <link rel="stylesheet" type="text/css" href="./index.css"/>
         <!-- 重要，请到 https://console.amap.com 申请 JS API 的 key和密钥 -->
         <script> 
@@ -17,37 +17,35 @@
         <script src="https://unpkg.com/element-ui/lib/index.js"></script>
         <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
         <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=6f025e700cbacbb0bb866712d20bb35c&plugin=AMap.PolylineEditor"></script>
-        <!-- <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script> -->
-        <script src="./lib/pako.js"></script>
     </head>
     <body>
         <div id="app">
             <div id="container"></div>
             <div class="tools">
                 <div class="item">
-                    名称：<el-input type="text" v-model="form.name" ></el-input>
+                    名称：<el-input type="text" size="small" v-model="form.name" ></el-input>
                 </div>
                 <div class="item">
-                    序号：<el-input type="number" v-model="form.index" ></el-input>
+                    序号：<el-input type="number" size="small" v-model="form.index" ></el-input>
                 </div>
                 <div class="item">
-                    状态：<el-input type="number" v-model="form.status" ></el-input>
+                    状态：<el-input type="number" size="small" v-model="form.status" ></el-input>
                 </div>
                 <div class="item">
-                    描述：<input type="text" v-model="form.description" ></el-input>
+                    描述：<input type="text" size="small" v-model="form.description" ></el-input>
                 </div>
                 <div class="item">
-                    起点：<input type="text" v-model="form.firstPosition" ></el-input>
+                    起点：<input type="text" size="small" v-model="form.firstPosition" ></el-input>
                     <el-button @click="fill('firstPosition')" type="text" >点击获取</el-button>
                 </div>
                 <div class="item">
-                    终点：<input type="text" v-model="form.lastPosition" ></el-input>
+                    终点：<input type="text" size="small" v-model="form.lastPosition" ></el-input>
                     <el-button @click="fill('lastPosition')" type="text" >点击获取</el-button>
                 </div>
                 <div class="item">
                     距离：{{distance / 1000}} km
                 </div>
-                <el-button type="button" @click="submit">保存</el-button>
+                <el-button type="primary" @click="submit" style="width: 100%;">保存</el-button>
             </div>
         </div>
         <script>
@@ -65,26 +63,67 @@
                             description: '',
                             firstPosition: '',
                             lastPosition: '',
+                            status: 1,
+                            index: 0
                         },
-                        distance: null,
+                        distance: 0,
                         polyEditor: null,
                         editablePolyline: null,
+                        startMarker: null,
+                        endMarker: null,
+                        pathCoordinates: []
                     }
                 },
                 mounted() {
                     this.map = new AMap.Map("container", {
                         resizeEnable: true
                     });
-                    // 初始化AMap.DragRoute插件
-                    this.map.plugin("AMap.DragRoute", function() {});
+                    
                     // 点击地图拾取坐标
                     this.map.on('click', (e) => {
                         let { lng, lat } = e.lnglat;
                         if(this.type) {
                             this.form[this.type] = `${lng},${lat}`;
+                            
+                            // 创建marker的图标
+                            const iconStart = new AMap.Icon({
+                                size: new AMap.Size(19, 31),
+                                image: "https://webapi.amap.com/theme/v1.3/markers/b/start.png",
+                                imageSize: new AMap.Size(19, 31),
+                            });
+                            const iconEnd = new AMap.Icon({
+                                size: new AMap.Size(19, 31),
+                                image: "https://webapi.amap.com/theme/v1.3/markers/b/end.png",
+                                imageSize: new AMap.Size(19, 31),
+                            });
+                            
+                            // 移除已存在的对应marker
+                            if (this.type === 'firstPosition' && this.startMarker) {
+                                this.map.remove(this.startMarker);
+                            } else if (this.type === 'lastPosition' && this.endMarker) {
+                                this.map.remove(this.endMarker);
+                            }
+                            
+                            // 创建新的marker
+                            const marker = new AMap.Marker({
+                                position: new AMap.LngLat(lng, lat),
+                                title: this.type === 'firstPosition' ? '起点' : '终点',
+                                anchor: 'bottom-center',
+                                icon: this.type === 'firstPosition' ? iconStart : iconEnd,
+                            });
+                            
+                            // 将marker添加到地图并保存引用
+                            this.map.add(marker);
+                            if (this.type === 'firstPosition') {
+                                this.startMarker = marker;
+                            } else if (this.type === 'lastPosition') {
+                                this.endMarker = marker;
+                            }
+                            
                             this.type = null;
                         }
                     });
+                    
                     // 从URL获取参数
                     const urlParams = new URLSearchParams(window.location.search);
                     const _id = urlParams.get('_id');
@@ -94,49 +133,97 @@
                     this.form._id = _id;
 
                     this.handleDetail();
-                    
-                    
                 },
                 methods: {
                     handleDetail() {
                         let { name, _id } = this.form;
-                        fetch(`https://road.h5cssjs.com/detail/${name}/${_id}`)
+                        fetch(`/api/getRoadDetail?roadName=${name}&partId=${_id}`)
                         .then(res => res.json())
                         .then(data => {
-                            this.form = data;
-                            this.myPath();
+                            console.log('获取详情成功:', data);
+                            this.form.description = data.properties.description;
+                            this.form.index = data.properties.index;
+                            this.form.status = data.properties.status;
+                            
+                            // 设置起点和终点
+                            const coordinates = data.geometry.coordinates;
+                            this.pathCoordinates = coordinates;
+                            
+                            if (coordinates && coordinates.length > 0) {
+                                const firstPoint = coordinates[0];
+                                const lastPoint = coordinates[coordinates.length - 1];
+                                
+                                this.form.firstPosition = `${firstPoint[0]},${firstPoint[1]}`;
+                                this.form.lastPosition = `${lastPoint[0]},${lastPoint[1]}`;
+                                
+                                // 添加起点标记
+                                if (this.startMarker) {
+                                    this.map.remove(this.startMarker);
+                                }
+                                const iconStart = new AMap.Icon({
+                                    size: new AMap.Size(19, 31),
+                                    image: "https://webapi.amap.com/theme/v1.3/markers/b/start.png",
+                                    imageSize: new AMap.Size(19, 31),
+                                });
+                                this.startMarker = new AMap.Marker({
+                                    position: new AMap.LngLat(firstPoint[0], firstPoint[1]),
+                                    title: '起点',
+                                    anchor: 'bottom-center',
+                                    icon: iconStart
+                                });
+                                this.map.add(this.startMarker);
+                                
+                                // 添加终点标记
+                                if (this.endMarker) {
+                                    this.map.remove(this.endMarker);
+                                }
+                                const iconEnd = new AMap.Icon({
+                                    size: new AMap.Size(19, 31),
+                                    image: "https://webapi.amap.com/theme/v1.3/markers/b/end.png",
+                                    imageSize: new AMap.Size(19, 31),
+                                });
+                                this.endMarker = new AMap.Marker({
+                                    position: new AMap.LngLat(lastPoint[0], lastPoint[1]),
+                                    title: '终点',
+                                    anchor: 'bottom-center',
+                                    icon: iconEnd
+                                });
+                                this.map.add(this.endMarker);
+                                
+                                // 绘制路径
+                                this.drawPath(coordinates);
+                                
+                                // 计算距离
+                                this.distance = Math.round(AMap.GeometryUtil.distanceOfLine(coordinates));
+                            }
                         })
                         .catch(error => {
                             console.error('获取详情失败:', error);
+                            this.$message.error('获取路径详情失败');
                         });
                     },
                     
-                    myPath() {
-                        // 创建可编辑折线
+                    drawPath(coordinates) {
                         // 清除现有的路线
                         if (this.editablePolyline) {
                             this.map.remove(this.editablePolyline);
                         }
                         
-                        // 创建路径数组
-                        let path = JSON.parse(pako.inflate(this.form.paths, { to: 'string' }));
-                        
                         // 创建可编辑折线
                         this.editablePolyline = new AMap.Polyline({
-                            path: path,
-                            // isOutline: true,
-                            // outlineColor: '#ffeeff',
-                            // borderWeight: 3,
+                            path: coordinates,
+                            isOutline: true,
+                            outlineColor: '#ffeeff',
+                            borderWeight: 3,
                             strokeColor: "#3366FF", 
                             strokeOpacity: 1,
-                            strokeWeight: 1,
+                            strokeWeight: 3,
                             strokeStyle: "solid",
                             strokeDasharray: [10, 5],
                             lineJoin: 'round',
                             lineCap: 'round',
                             zIndex: 50,
-                            editingTool: true,
-                            // draggable: true
+                            editingTool: true
                         });
                         
                         // 将折线添加到地图
@@ -148,43 +235,56 @@
                         this.polyEditor.setTarget(this.editablePolyline);
                         this.polyEditor.open();
                     },
+                    
+                    fill(actionType = 'firstPosition') {
+                        this.type = actionType;
+                    },
+                    
                     async submit() {
                         const { _id, name, description, index, status } = this.form;
                         let paths = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
-                        // console.log(paths);
-                        // let res = await fetch('./data/no.json');
-                        // paths = await res.json()
-                        // console.log(paths,2222);
                         var distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
                         
                         let data = {
-                            _id,
-                            name,
+                            road: name,
                             description,
                             index,
-                            paths,
+                            coordinates: paths,
                             distance,
-                            status,
+                            status: parseInt(status),
                         }
-                        fetch(`https://road.h5cssjs.com/update`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                // "Authorization": Authorization,
-                            },
-                            body: JSON.stringify(data)
-                        }).then(res => res.json()).then(data => {
-                            console.log(data);
+                        
+                        try {
+                            // 先删除原有路径
+                            if (_id) {
+                                const deleteRes = await fetch(`/api/removeRoadPart?partName=${_id}`).then(res => res.json());
+                                console.log('删除结果:', deleteRes);
+                            }
+                            
+                            // 然后添加新路径
+                            const saveRes = await fetch(`/api/addPath`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data)
+                            }).then(res => res.json());
+                            
+                            console.log('保存结果:', saveRes);
                             this.$message({
                                 message: '保存成功',
                                 type: 'success'
                             });
-                        })
-                    },
-
+                            setTimeout(() => {
+                                window.close();
+                            }, 2000);
+                        } catch (error) {
+                            console.error('操作失败:', error);
+                            this.$message.error('保存失败');
+                        }
+                    }
                 }
             })
-
         </script>
     </body>
 </html>
