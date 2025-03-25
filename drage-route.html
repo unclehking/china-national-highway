@@ -167,6 +167,16 @@
                 },
                 methods: {
                     drawPath() {
+                        // 清除现有的自定义路线
+                        if (this.polyEditor) {
+                            this.polyEditor.close();
+                            this.polyEditor = null;
+                        }
+                        if (this.editablePolyline) {
+                            this.map.remove(this.editablePolyline);
+                            this.editablePolyline = null;
+                        }
+                        
                         // 87.02526,48.696618
                         this.map.clearMap();
                         const { firstPosition, lastPosition } = this.form;
@@ -202,10 +212,16 @@
                         this.type = actionType;
                     },
                     myPath() {
+                        // 清除现有的规划路线
+                        if (this.route) {
+                            this.route.destroy();
+                            this.route = null;
+                        }
+                        
                         // 创建可编辑折线
                         const { firstPosition, lastPosition } = this.form;
                         if (firstPosition && lastPosition) {
-                            // 清除现有的路线
+                            // 清除现有的折线
                             if (this.editablePolyline) {
                                 this.map.remove(this.editablePolyline);
                             }
