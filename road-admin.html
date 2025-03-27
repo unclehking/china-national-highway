@@ -115,21 +115,23 @@
             mounted() {
                 this.name = location.hash ? location.hash.replace(/#/g,'') : 'G219'
                 this.loadRoadPaths();
-                const tbody = document.querySelector(".draggable-table .el-table__body-wrapper tbody");
-                new Sortable(tbody, {
-                    animation: 150,
-                    handle: ".sort-handle",
-                    // 需要在odEnd方法中处理原始eltable数据，使原始数据与显示数据保持顺序一致
-                    onEnd: ({ newIndex, oldIndex }) => {
-                        const targetRow = this.tableData[oldIndex];
-                        this.tableData.splice(oldIndex, 1);
-                        this.tableData.splice(newIndex, 0, targetRow);
-                        // console.table(this.tableData);
-                        this.batchUpdateIndex();
-                    },
-                });
+                // const tbody = document.querySelector(".draggable-table .el-table__body-wrapper tbody");
+                // new Sortable(tbody, {
+                //     animation: 150,
+                //     handle: ".sort-handle",
+                //     // 需要在odEnd方法中处理原始eltable数据，使原始数据与显示数据保持顺序一致
+                //     onEnd: ({ newIndex, oldIndex }) => {
+                //         const targetRow = this.tableData[oldIndex];
+                //         this.tableData.splice(oldIndex, 1);
+                //         this.tableData.splice(newIndex, 0, targetRow);
+                //         // console.table(this.tableData);
+                //         this.batchUpdateIndex();
+                //     },
+                // });
             
                 document.addEventListener('visibilitychange', () => {
+                    console.log(document.visibilityState, 11111);
+                    
                     if (document.visibilityState === 'visible') {
                         this.loadRoadPaths();
                     }
