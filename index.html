@@ -87,6 +87,34 @@
                 <iframe :src="`/admin-view.html?name=${currentRoad.name}`" frameborder="0" style="width:100%;height:100%;" ></iframe>
             </el-drawer>
 
+            <!-- 新增/编辑对话框 -->
+            <el-dialog
+                :title="isEdit ? '编辑国道信息' : '新增国道信息'"
+                :visible.sync="dialogVisible"
+                width="500px"
+                :before-close="handleClose">
+                <el-form :model="form" ref="form" label-width="80px" :rules="rules">
+                    <el-form-item label="名称" prop="name">
+                        <el-input v-model="form.name" placeholder="请输入国道名称，如G219"></el-input>
+                    </el-form-item>
+                    <el-form-item label="序号" prop="index">
+                        <el-input-number v-model="form.index" :min="0" :step="1"></el-input-number>
+                    </el-form-item>
+                    <el-form-item label="描述" prop="subTitle">
+                        <el-input v-model="form.subTitle" placeholder="请输入描述信息"></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态" prop="status">
+                        <el-radio-group v-model="form.status">
+                            <el-radio :label="0">未采集</el-radio>
+                            <el-radio :label="1">已采集</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="submitForm">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
         
     </body>
@@ -115,12 +143,22 @@
                     ],
                     dialogVisible: false,
                     viewVisible: false,
+                    isEdit: false,
                     form: {
                         name: '',
-                        description: '',
+                        subTitle: '',
                         index: 0,
-                        status: '',
-                        subTitle: ''
+                        status: 0,
+                    },
+                    originalName: null,
+                    rules: {
+                        name: [
+                            { required: true, message: '请输入国道名称', trigger: 'blur' },
+                            { pattern: /^G\d+$/, message: '国道名称格式应为G+数字，如G219', trigger: 'blur' }
+                        ],
+                        subTitle: [
+                            { required: true, message: '请输入描述信息', trigger: 'blur' }
+                        ]
                     },
                     myEditor: null,
                     editorOption: {
@@ -215,23 +253,36 @@
                     })
                 },
                 handleDelete(row) {
-                    this.$confirm('确认删除该路径?', '提示', {
+                    this.$confirm('确认删除该国道记录及其所有路段数据?', '警告', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        let { _id } = row;
-                        fetch(`https://road.h5cssjs.com/index/remove/${_id}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            this.$message({
-                                type: 'success',
-                                message: data.Message
+                        const { name } = row;
+                        fetch(`/api/deleteRoad?name=${name}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === 1) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: data.message || '删除成功'
+                                    });
+                                    // 删除成功后重新加载数据
+                                    this.loadRoadPaths();
+                                } else {
+                                    this.$message.error(data.message || '删除失败');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('删除失败:', error);
+                                this.$message.error('删除失败，请重试');
                             });
-                            // 删除成功后重新获取数据
-                            this.loadRoadPaths();
-                        })
-                    })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });          
+                    });
                 },
                 handleDetail(row) {
                     let { name } = this;
@@ -272,8 +323,14 @@
                 },
                 // 编辑
                 edit(row = {}) {
-                    let { name } = row;
-                    // this.form = data;
+                    // 标记为编辑模式
+                    this.isEdit = true;
+                    // 复制行数据到表单，避免直接引用导致的双向绑定问题
+                    this.form = JSON.parse(JSON.stringify(row));
+                    // 确保状态是数字类型
+                    this.form.status = Number(this.form.status || 0);
+                    // 保存原始名称，用于更新时识别，因为名称可能会被修改
+                    this.originalName = row.name;
                     this.dialogVisible = true;
                 },
                 handlePreview(row) {
@@ -322,37 +379,67 @@
                 },
 
                 showDialog() {
-                    this.form = {};
+                    // 标记为新增模式
+                    this.isEdit = false;
+                    // 重置表单为初始状态
+                    this.form = {
+                        name: '',
+                        subTitle: '',
+                        index: this.tableData.length, // 默认序号为当前列表长度
+                        status: 0
+                    };
+                    this.originalName = null; // 清空原始名称
                     this.dialogVisible = true;
                 },
                 handleClose() {
-                    myEditor = null;
-                    this.$refs.form.resetFields();
+                    this.dialogVisible = false;
+                    this.isEdit = false; // 重置编辑状态
+                    this.originalName = null; // 清空原始名称
+                    if (this.$refs.form) {
+                        this.$refs.form.resetFields();
+                    }
                 },
                 submitForm() {
                     this.$refs.form.validate((valid) => {
                         if (valid) {
                             console.log('表单数据:', this.form);
-                            let { form, form: { _id } } = this;
-                            let handleName = _id ? 'update' : 'submit';
-                            fetch(`https://road.h5cssjs.com/index/${handleName}`, {
+                            // 确定是更新还是添加
+                            let url = this.isEdit ? '/api/updateRoad' : '/api/addRoad';
+                            
+                            // 如果是编辑模式，确保传递正确的名称
+                            let formData = {...this.form};
+                            if (this.isEdit && this.originalName) {
+                                // 这里需要确保后端API能正确识别要更新的记录
+                                // 如果API使用名称而非ID作为唯一标识，可能需要传递原始名称
+                                formData.originalName = this.originalName;
+                            }
+                            
+                            fetch(url, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
-                                    // "Authorization": Authorization,
                                 },
-                                body: JSON.stringify(form)
-                            }).then(res => res.json()).then(data => {
-                                console.log(data);
-                                this.$message({
-                                    message: '保存成功',
-                                    type: 'success'
-                                });
-                                this.dialogVisible = false;
-                                this.$refs.form.resetFields();
-                                this.loadRoadPaths();
+                                body: JSON.stringify(formData)
                             })
-                            
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log('保存结果:', data);
+                                if (data.status === 1) {
+                                    this.$message({
+                                        message: data.message || '保存成功',
+                                        type: 'success'
+                                    });
+                                    this.dialogVisible = false;
+                                    // 重新加载数据
+                                    this.loadRoadPaths();
+                                } else {
+                                    this.$message.error(data.message || '操作失败');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('保存失败:', error);
+                                this.$message.error('保存失败，请重试');
+                            });
                         } else {
                             console.log('表单验证失败');
                             return false;

@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
             Api.roadList(req, res);
         } 
         else if (/getRoadParts/.test(req.url)) {
-            Api.getRoadParts(req, res);
+            RoadPart.getRoadParts(req, res);
         } 
         else if (/addPath/.test(req.url)) {
             RoadPart.addPath(req, res);
@@ -27,7 +27,16 @@ const server = http.createServer((req, res) => {
             RoadPart.removeRoadPart(req, res);
         } 
         else if (/getRoadDetail/.test(req.url)) {
-            Api.getRoadDetail(req, res);
+            RoadPart.getRoadDetail(req, res);
+        } 
+        else if (/addRoad/.test(req.url)) {
+            Api.addRoad(req, res);
+        } 
+        else if (/updateRoad/.test(req.url)) {
+            Api.updateRoad(req, res);
+        } 
+        else if (/deleteRoad/.test(req.url)) {
+            Api.deleteRoad(req, res);
         } 
         else {
             res.writeHead(404, 'Not Found');
