@@ -20,9 +20,9 @@
     },
     {
       "name": "G228",
-      "status": 0,
-      "index": 3,
-      "subTitle": "丹东—东兴"
+      "subTitle": "丹东—东兴",
+      "status": 2,
+      "index": 3
     },
     {
       "name": "G315",
@@ -45,9 +45,9 @@
     },
     {
       "name": "G331",
-      "status": 0,
-      "index": 7,
-      "subTitle": "丹东—阿勒泰"
+      "subTitle": "丹东—阿勒泰",
+      "status": 2,
+      "index": 7
     },
     {
       "name": "G102",
