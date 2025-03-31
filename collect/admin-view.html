@@ -218,6 +218,20 @@
                 });
                 map.add(polyline);
                 
+                // 添加鼠标悬停事件改变透明度
+                polyline.on('mouseover', function() {
+                    polyline.setOptions({
+                        strokeOpacity: 0.1,
+                    });
+                });
+                
+                // 鼠标移出恢复原透明度
+                polyline.on('mouseout', function() {
+                    polyline.setOptions({
+                        strokeOpacity: 0.8
+                    });
+                });
+                
                 // polyEditor = new AMap.PolylineEditor(map, polyline);
                 // polyEditor.open();
                 map.setFitView();

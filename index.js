@@ -87,5 +87,5 @@ const openWebUrl = (url) => {
 
 const args = process.argv.slice(2);
 if (args[0] === '--open') {
-    openWebUrl(`http://${hostname}:${port}/index.html`);
+    openWebUrl(`http://${hostname}:${port}/collect/index.html`);
 }

@@ -194,7 +194,7 @@
                     });
                 },
                 goToAddPage(firstPosition = '', index=0, description='') {
-                    const url = new URL('/drage-route.html', window.location.origin);
+                    const url = new URL('/collect/drage-route.html', window.location.origin);
                     url.searchParams.append('name', this.name);
                     typeof firstPosition !=='object' && url.searchParams.append('firstPosition', firstPosition);
                     url.searchParams.append('index', Number(index) + 1);
@@ -203,7 +203,7 @@
                     window.open(url.toString());
                 },
                 goToEditPage(_id = '') {
-                    const url = new URL('/edit.html', window.location.origin);
+                    const url = new URL('/collect/edit.html', window.location.origin);
                     url.searchParams.append('name', this.name);
                     url.searchParams.append('_id', _id);
                     // window.location.href = url.toString();
@@ -211,7 +211,7 @@
                 },
                 handlePreview(row) {
                     let { name, _id} = row;
-                    const url = new URL('/admin-view.html', window.location.origin);
+                    const url = new URL('/collect/admin-view.html', window.location.origin);
                     console.log(url, 11111);
                     // return
                     
