@@ -45,6 +45,9 @@
                     <el-button @click="fill('lastPosition')" type="text" >点击获取</el-button>
                 </div>
                 <div class="item">
+                    途经点：<input type="text" size="small" v-model="form.viaPoints" placeholder="经纬度用 | 分隔" ></el-input>
+                </div>
+                <div class="item">
                     距离：{{distance / 1000}} km
                 </div>
                 <div style="display: flex; gap:4px;margin: 10px 0;">
@@ -68,6 +71,7 @@
                             description: '',
                             firstPosition: '',
                             lastPosition: '',
+                            viaPoints: '',
                             status: 1,
                             index: 0
                         },
@@ -131,6 +135,8 @@
                     // 从URL获取参数
                     const urlParams = new URLSearchParams(window.location.search);
                     const firstPositionParam = urlParams.get('firstPosition');
+                    const lastPositionParam = urlParams.get('lastPosition');
+                    const viaPointsParam = urlParams.get('viaPoints');
                     const nameParam = urlParams.get('name');
                     const index = urlParams.get('index');
                     const description = urlParams.get('description');
@@ -158,6 +164,12 @@
                         this.map.add(this.startMarker);
                         this.map.setCenter([parseFloat(lng), parseFloat(lat)]);
                     }
+                    if (lastPositionParam) {
+                        this.form.lastPosition = lastPositionParam;
+                    }
+                    if (viaPointsParam) {
+                        this.form.viaPoints = viaPointsParam;
+                    }
                     if (nameParam) {
                         this.form.road = nameParam;
                         this.form.index = index || 0;
@@ -182,7 +194,9 @@
                         const { firstPosition, lastPosition } = this.form;
                         if (firstPosition && lastPosition) {
                             this.route?.destroy();
-                            let path = [firstPosition.split(','), lastPosition.split(',')];
+                            const viaPoints = this.form.viaPoints
+                                .split('|').filter(Boolean).map(point => point.split(','));
+                            let path = [firstPosition.split(','), ...viaPoints, lastPosition.split(',')];
                             this.route = new AMap.DragRoute(
                                 this.map, 
                                 path, 

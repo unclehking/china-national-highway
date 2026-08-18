@@ -81,13 +81,13 @@
     },
     {
       "name": "G227",
-      "status": 0,
+      "status": 1,
       "index": 13,
-      "subTitle": "西宁-孟连"
+      "subTitle": "张掖-孟连"
     },
     {
       "name": "G320",
-      "status": 0,
+      "status": 1,
       "index": 14,
       "subTitle": "上海-瑞丽"
     },

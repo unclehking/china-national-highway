@@ -2,6 +2,8 @@
 中国国道地理位置数据库  
 本项目以GeoJSON格式提供GCJ-02标准的中国国道地图地理位置数据。数据位于db文件夹中。
 
+部分道路数据来源于 OpenStreetMap contributors，并依据 [ODbL 1.0](https://www.openstreetmap.org/copyright) 使用与发布。
+
 采集进度：
 - [X] G101 北京市-沈阳市
 - [X] G318 上海市-拉萨市
@@ -14,4 +16,4 @@
 1、```git clone https://github.com/unclehking/china-national-highway.git```  
 2、```cd china-national-highway```  
 3、```npm install```  
-4、```npm run start```  
+4、```npm run start```

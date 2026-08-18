@@ -1,0 +1,153 @@
+{
+  "road": "G227",
+  "relation": 165532,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-08-18T06:44:12Z",
+  "inputSha256": "5f562130cc02b102c8bfc87d149d599bea3b5ba9a8bb6360446f3dd671c907a7",
+  "uniqueWays": 1468,
+  "topologyComponents": 9,
+  "selectedGraphEdges": 55865,
+  "bridges": [
+    {
+      "id": 5,
+      "from": [
+        100.9309928,
+        37.9735635
+      ],
+      "to": [
+        100.9382281,
+        37.9658002
+      ],
+      "straightDistance": 1071,
+      "routeDistance": 1091,
+      "mode": "osrm"
+    },
+    {
+      "id": 4,
+      "from": [
+        100.8339384,
+        28.2726751
+      ],
+      "to": [
+        100.834278,
+        28.2730639
+      ],
+      "straightDistance": 55,
+      "routeDistance": 55,
+      "mode": "osrm"
+    },
+    {
+      "id": 8,
+      "from": [
+        101.8173731,
+        27.2544515
+      ],
+      "to": [
+        101.8173843,
+        27.2542683
+      ],
+      "straightDistance": 20,
+      "routeDistance": 20,
+      "mode": "osrm"
+    },
+    {
+      "id": 10,
+      "from": [
+        102.10407,
+        26.8996576
+      ],
+      "to": [
+        102.1039382,
+        26.8995864
+      ],
+      "straightDistance": 15,
+      "routeDistance": 16,
+      "mode": "osrm"
+    },
+    {
+      "id": 9,
+      "from": [
+        101.831078,
+        26.2013166
+      ],
+      "to": [
+        101.831342,
+        26.2010512
+      ],
+      "straightDistance": 40,
+      "routeDistance": 40,
+      "mode": "straight"
+    },
+    {
+      "id": 3,
+      "from": [
+        101.2495428,
+        25.5094317
+      ],
+      "to": [
+        101.2502185,
+        25.5089614
+      ],
+      "straightDistance": 86,
+      "routeDistance": 87,
+      "mode": "osrm"
+    },
+    {
+      "id": 2,
+      "from": [
+        100.9970633,
+        22.7653917
+      ],
+      "to": [
+        100.9969564,
+        22.7653617
+      ],
+      "straightDistance": 11,
+      "routeDistance": 136,
+      "mode": "osrm"
+    },
+    {
+      "id": 11,
+      "from": [
+        99.563794,
+        22.228391
+      ],
+      "to": [
+        99.5927974,
+        22.3139677
+      ],
+      "straightDistance": 9973,
+      "routeDistance": 14006,
+      "mode": "osrm"
+    }
+  ],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 18,
+  "targetPartDistance": 200000,
+  "totalDistance": 3589116,
+  "minimumPartDistance": 189116,
+  "maximumPartDistance": 200000,
+  "startWgs84": [
+    100.486716,
+    38.9058087
+  ],
+  "finishWgs84": [
+    99.5927974,
+    22.3139677
+  ],
+  "startGcj02": [
+    100.4883066414578,
+    38.90634141312105
+  ],
+  "finishGcj02": [
+    99.59358319852024,
+    22.310838275641217
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 200000,
+    "maximumAdjacentPartGap": 0
+  }
+}
