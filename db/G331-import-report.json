@@ -1,0 +1,265 @@
+{
+  "road": "G331",
+  "relation": 8085327,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-08-18T06:59:34Z",
+  "inputSha256": "abdd86a83fc1f7eec92816995f9d777921ad2ba15a2972e117a6469251de65ca",
+  "uniqueWays": 1722,
+  "uniqueRelationWays": 1603,
+  "supplementalWays": 119,
+  "topologyComponents": 22,
+  "selectedGraphEdges": 49855,
+  "bridges": [
+    {
+      "id": 10,
+      "from": [
+        131.0417253,
+        44.3776782
+      ],
+      "to": [
+        131.0421865,
+        44.3778799
+      ],
+      "straightDistance": 43,
+      "routeDistance": 88,
+      "mode": "osrm"
+    },
+    {
+      "id": 11,
+      "from": [
+        132.4706775,
+        47.6459259
+      ],
+      "to": [
+        132.3177431,
+        47.5804727
+      ],
+      "straightDistance": 13579,
+      "routeDistance": 143981,
+      "mode": "osrm"
+    },
+    {
+      "id": 41,
+      "from": [
+        130.2409019,
+        48.8215543
+      ],
+      "to": [
+        130.236171,
+        48.8197716
+      ],
+      "straightDistance": 399,
+      "routeDistance": 400,
+      "mode": "osrm"
+    },
+    {
+      "id": 3,
+      "from": [
+        127.4344269,
+        50.2613179
+      ],
+      "to": [
+        127.450444,
+        50.2631385
+      ],
+      "straightDistance": 1156,
+      "routeDistance": 1724,
+      "mode": "osrm"
+    },
+    {
+      "id": 1,
+      "from": [
+        117.9799579,
+        49.488405
+      ],
+      "to": [
+        117.4830678,
+        49.5651168
+      ],
+      "straightDistance": 36864,
+      "routeDistance": 44329,
+      "mode": "osrm"
+    },
+    {
+      "id": 14,
+      "from": [
+        111.5159146,
+        43.3253439
+      ],
+      "to": [
+        111.5005218,
+        43.3070516
+      ],
+      "straightDistance": 2385,
+      "routeDistance": 2726,
+      "mode": "osrm"
+    },
+    {
+      "id": 15,
+      "from": [
+        101.0087111,
+        41.9337257
+      ],
+      "to": [
+        101.0085436,
+        41.9339299
+      ],
+      "straightDistance": 27,
+      "routeDistance": 13036,
+      "mode": "osrm"
+    },
+    {
+      "id": 31,
+      "from": [
+        100.2527973,
+        41.7694724
+      ],
+      "to": [
+        97.4717471,
+        42.4414327
+      ],
+      "straightDistance": 241275,
+      "routeDistance": 418643,
+      "mode": "osrm"
+    },
+    {
+      "id": 5,
+      "from": [
+        90.366982,
+        46.642171
+      ],
+      "to": [
+        86.9028744,
+        47.7150606
+      ],
+      "straightDistance": 287684,
+      "routeDistance": 332249,
+      "mode": "osrm"
+    },
+    {
+      "id": 4,
+      "from": [
+        86.40565,
+        48.0593684
+      ],
+      "to": [
+        86.403879,
+        48.0595352
+      ],
+      "straightDistance": 133,
+      "routeDistance": 138,
+      "mode": "osrm"
+    },
+    {
+      "id": 28,
+      "from": [
+        86.2815923,
+        48.0547385
+      ],
+      "to": [
+        86.2813562,
+        48.0546686
+      ],
+      "straightDistance": 19,
+      "routeDistance": 19,
+      "mode": "osrm"
+    },
+    {
+      "id": 47,
+      "from": [
+        86.1903742,
+        48.0510512
+      ],
+      "to": [
+        86.1899987,
+        48.0509759
+      ],
+      "straightDistance": 29,
+      "routeDistance": 29,
+      "mode": "osrm"
+    },
+    {
+      "id": 45,
+      "from": [
+        85.8040378,
+        47.990411
+      ],
+      "to": [
+        85.8037898,
+        47.9904182
+      ],
+      "straightDistance": 18,
+      "routeDistance": 19,
+      "mode": "osrm"
+    },
+    {
+      "id": 48,
+      "from": [
+        85.7064172,
+        48.0030054
+      ],
+      "to": [
+        85.7047619,
+        48.00317
+      ],
+      "straightDistance": 125,
+      "routeDistance": 125,
+      "mode": "osrm"
+    }
+  ],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 12,
+    "maximumExtraDistance": 200000,
+    "straightFallbackAllowed": false
+  },
+  "bridgeWarnings": [
+    {
+      "id": 11,
+      "straightDistance": 13579,
+      "routeDistance": 143981,
+      "reason": "large-routing-detour"
+    },
+    {
+      "id": 31,
+      "straightDistance": 241275,
+      "routeDistance": 418643,
+      "reason": "large-topology-gap"
+    },
+    {
+      "id": 5,
+      "straightDistance": 287684,
+      "routeDistance": 332249,
+      "reason": "large-topology-gap"
+    }
+  ],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 47,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 198758,
+  "totalDistance": 9341640,
+  "minimumPartDistance": 198758,
+  "maximumPartDistance": 198758,
+  "startWgs84": [
+    124.3789273,
+    40.1248628
+  ],
+  "finishWgs84": [
+    85.7638694,
+    48.3884615
+  ],
+  "startGcj02": [
+    124.38475444059145,
+    40.12644950739119
+  ],
+  "finishGcj02": [
+    85.76679044545521,
+    48.389348223241605
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 198758,
+    "maximumAdjacentPartGap": 0
+  }
+}

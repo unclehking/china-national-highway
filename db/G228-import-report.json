@@ -1,0 +1,812 @@
+{
+  "road": "G228",
+  "relation": 8246430,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-08-21T06:06:31Z",
+  "inputSha256": "74aee224d015c6d83682510cfb50cb4a57124be73c7f96b7dca791b6d4a2e6a9",
+  "uniqueWays": 10890,
+  "uniqueRelationWays": 10125,
+  "activeRelationWays": 10123,
+  "supplementalWays": 767,
+  "relationTopologyComponents": 160,
+  "topologyComponents": 113,
+  "selectedGraphEdges": 55998,
+  "selectedGraphDistance": 6524712,
+  "repeatedGraphEdgeDistance": 0,
+  "selectedWayQuality": {
+    "uniqueWays": 5397,
+    "supplementalWays": 98,
+    "constructionWays": 9,
+    "proposedWays": 2,
+    "nonRoadWayIds": []
+  },
+  "bridges": [
+    {
+      "id": 169,
+      "leg": 2,
+      "from": [
+        121.6967675,
+        39.2837208
+      ],
+      "to": [
+        121.7094272,
+        39.2855053
+      ],
+      "straightDistance": 1107,
+      "routeDistance": 1543,
+      "mode": "osrm"
+    },
+    {
+      "id": 607,
+      "leg": 2,
+      "from": [
+        121.5099892,
+        39.6976536
+      ],
+      "to": [
+        121.509663,
+        39.698266
+      ],
+      "straightDistance": 74,
+      "routeDistance": 83,
+      "mode": "osrm"
+    },
+    {
+      "id": 450,
+      "leg": 2,
+      "from": [
+        121.680962,
+        39.9144575
+      ],
+      "to": [
+        121.681398,
+        39.9145768
+      ],
+      "straightDistance": 39,
+      "routeDistance": 40,
+      "mode": "osrm"
+    },
+    {
+      "id": 447,
+      "leg": 3,
+      "from": [
+        121.3332768,
+        40.9202463
+      ],
+      "to": [
+        121.3224711,
+        40.9173319
+      ],
+      "straightDistance": 964,
+      "routeDistance": 4119,
+      "mode": "osrm"
+    },
+    {
+      "id": 180,
+      "leg": 4,
+      "from": [
+        119.471227,
+        39.8694034
+      ],
+      "to": [
+        119.4424064,
+        39.8569564
+      ],
+      "straightDistance": 2822,
+      "routeDistance": 3067,
+      "mode": "osrm"
+    },
+    {
+      "id": 181,
+      "leg": 4,
+      "from": [
+        117.6014217,
+        39.0261102
+      ],
+      "to": [
+        117.5703242,
+        38.9821903
+      ],
+      "straightDistance": 5574,
+      "routeDistance": 20026,
+      "mode": "osrm"
+    },
+    {
+      "id": 524,
+      "leg": 5,
+      "from": [
+        118.1478765,
+        38.0106624
+      ],
+      "to": [
+        119.2547744,
+        36.9850639
+      ],
+      "straightDistance": 150134,
+      "routeDistance": 200258,
+      "mode": "osrm"
+    },
+    {
+      "id": 555,
+      "leg": 5,
+      "from": [
+        119.6464533,
+        36.9678391
+      ],
+      "to": [
+        119.6471981,
+        36.9685663
+      ],
+      "straightDistance": 104,
+      "routeDistance": 2852,
+      "mode": "osrm"
+    },
+    {
+      "id": 557,
+      "leg": 6,
+      "from": [
+        121.3961884,
+        37.4685692
+      ],
+      "to": [
+        121.3966192,
+        37.4685647
+      ],
+      "straightDistance": 38,
+      "routeDistance": 112,
+      "mode": "osrm"
+    },
+    {
+      "id": 1018,
+      "leg": 6,
+      "from": [
+        121.4592976,
+        37.4365197
+      ],
+      "to": [
+        121.4594413,
+        37.4363058
+      ],
+      "straightDistance": 27,
+      "routeDistance": 42,
+      "mode": "osrm"
+    },
+    {
+      "id": 318,
+      "leg": 6,
+      "from": [
+        121.4647821,
+        37.4354569
+      ],
+      "to": [
+        121.4648863,
+        37.4355867
+      ],
+      "straightDistance": 17,
+      "routeDistance": 3385,
+      "mode": "osrm"
+    },
+    {
+      "id": 315,
+      "leg": 7,
+      "from": [
+        121.49115,
+        36.7837551
+      ],
+      "to": [
+        121.4917034,
+        36.783674
+      ],
+      "straightDistance": 50,
+      "routeDistance": 8,
+      "mode": "osrm"
+    },
+    {
+      "id": 210,
+      "leg": 7,
+      "from": [
+        121.4685506,
+        36.7798201
+      ],
+      "to": [
+        121.4685772,
+        36.7779597
+      ],
+      "straightDistance": 207,
+      "routeDistance": 186,
+      "mode": "osrm"
+    },
+    {
+      "id": 198,
+      "leg": 7,
+      "from": [
+        121.6076803,
+        31.8077634
+      ],
+      "to": [
+        121.6077457,
+        31.8077382
+      ],
+      "straightDistance": 7,
+      "routeDistance": 53,
+      "mode": "osrm"
+    },
+    {
+      "id": 259,
+      "leg": 7,
+      "from": [
+        121.6872234,
+        31.7752564
+      ],
+      "to": [
+        121.6842256,
+        31.7558759
+      ],
+      "straightDistance": 2174,
+      "routeDistance": 5288,
+      "mode": "osrm"
+    },
+    {
+      "id": 252,
+      "leg": 7,
+      "from": [
+        121.6503952,
+        31.3056268
+      ],
+      "to": [
+        121.6503972,
+        31.305615
+      ],
+      "straightDistance": 1,
+      "routeDistance": 1,
+      "mode": "osrm"
+    },
+    {
+      "id": 489,
+      "leg": 8,
+      "from": [
+        121.6602815,
+        31.2631063
+      ],
+      "to": [
+        121.6602891,
+        31.2630767
+      ],
+      "straightDistance": 3,
+      "routeDistance": 3,
+      "mode": "osrm"
+    },
+    {
+      "id": 508,
+      "leg": 8,
+      "from": [
+        121.6763961,
+        31.1999434
+      ],
+      "to": [
+        121.6764009,
+        31.1999172
+      ],
+      "straightDistance": 3,
+      "routeDistance": 3,
+      "mode": "osrm"
+    },
+    {
+      "id": 294,
+      "leg": 8,
+      "from": [
+        121.7356636,
+        30.8827762
+      ],
+      "to": [
+        121.7349572,
+        30.8826244
+      ],
+      "straightDistance": 69,
+      "routeDistance": 3438,
+      "mode": "osrm"
+    },
+    {
+      "id": 52,
+      "leg": 8,
+      "from": [
+        121.0964322,
+        30.6425501
+      ],
+      "to": [
+        121.0963699,
+        30.6425262
+      ],
+      "straightDistance": 7,
+      "routeDistance": 2842,
+      "mode": "osrm"
+    },
+    {
+      "id": 53,
+      "leg": 8,
+      "from": [
+        121.2019291,
+        30.1719591
+      ],
+      "to": [
+        121.2071746,
+        30.01616
+      ],
+      "straightDistance": 17331,
+      "routeDistance": 23932,
+      "mode": "osrm"
+    },
+    {
+      "id": 404,
+      "leg": 9,
+      "from": [
+        121.4448481,
+        29.3023063
+      ],
+      "to": [
+        121.4448106,
+        29.3022487
+      ],
+      "straightDistance": 7,
+      "routeDistance": 7,
+      "mode": "osrm"
+    },
+    {
+      "id": 593,
+      "leg": 9,
+      "from": [
+        121.6138044,
+        29.0475088
+      ],
+      "to": [
+        121.6136395,
+        29.0472414
+      ],
+      "straightDistance": 34,
+      "routeDistance": 1148,
+      "mode": "osrm"
+    },
+    {
+      "id": 567,
+      "leg": 9,
+      "from": [
+        120.5687317,
+        27.623371
+      ],
+      "to": [
+        120.5686424,
+        27.62322
+      ],
+      "straightDistance": 19,
+      "routeDistance": 19,
+      "mode": "osrm"
+    },
+    {
+      "id": 571,
+      "leg": 9,
+      "from": [
+        120.2917819,
+        27.2775276
+      ],
+      "to": [
+        120.2152488,
+        27.2780686
+      ],
+      "straightDistance": 7564,
+      "routeDistance": 16554,
+      "mode": "osrm"
+    },
+    {
+      "id": 360,
+      "leg": 9,
+      "from": [
+        120.1931894,
+        26.9814445
+      ],
+      "to": [
+        120.2108878,
+        26.9588954
+      ],
+      "straightDistance": 3060,
+      "routeDistance": 37099,
+      "mode": "osrm"
+    },
+    {
+      "id": 357,
+      "leg": 9,
+      "from": [
+        119.6672809,
+        26.7579021
+      ],
+      "to": [
+        119.7200989,
+        26.6154453
+      ],
+      "straightDistance": 16687,
+      "routeDistance": 60488,
+      "mode": "osrm"
+    },
+    {
+      "id": 838,
+      "leg": 9,
+      "from": [
+        119.5637294,
+        26.1547827
+      ],
+      "to": [
+        119.5289303,
+        26.1137248
+      ],
+      "straightDistance": 5737,
+      "routeDistance": 20842,
+      "mode": "osrm"
+    },
+    {
+      "id": 931,
+      "leg": 9,
+      "from": [
+        119.5344275,
+        25.6951679
+      ],
+      "to": [
+        119.5338761,
+        25.6951379
+      ],
+      "straightDistance": 55,
+      "routeDistance": 56,
+      "mode": "osrm"
+    },
+    {
+      "id": 918,
+      "leg": 9,
+      "from": [
+        119.4598254,
+        25.666262
+      ],
+      "to": [
+        119.4382475,
+        25.6253896
+      ],
+      "straightDistance": 5033,
+      "routeDistance": 11547,
+      "mode": "osrm"
+    },
+    {
+      "id": 819,
+      "leg": 9,
+      "from": [
+        119.4413652,
+        25.6117879
+      ],
+      "to": [
+        119.4476361,
+        25.5988736
+      ],
+      "straightDistance": 1568,
+      "routeDistance": 1630,
+      "mode": "osrm"
+    },
+    {
+      "id": 460,
+      "leg": 9,
+      "from": [
+        119.4233449,
+        25.5644586
+      ],
+      "to": [
+        119.2075735,
+        25.472728
+      ],
+      "straightDistance": 23934,
+      "routeDistance": 36210,
+      "mode": "osrm"
+    },
+    {
+      "id": 462,
+      "leg": 9,
+      "from": [
+        118.6843918,
+        24.9008274
+      ],
+      "to": [
+        118.6715385,
+        24.8931026
+      ],
+      "straightDistance": 1555,
+      "routeDistance": 8288,
+      "mode": "osrm"
+    },
+    {
+      "id": 331,
+      "leg": 9,
+      "from": [
+        118.6413789,
+        24.817121
+      ],
+      "to": [
+        118.6414647,
+        24.8165854
+      ],
+      "straightDistance": 60,
+      "routeDistance": 14804,
+      "mode": "osrm"
+    },
+    {
+      "id": 2,
+      "leg": 9,
+      "from": [
+        118.0286511,
+        24.3449253
+      ],
+      "to": [
+        118.0303008,
+        24.3437364
+      ],
+      "straightDistance": 213,
+      "routeDistance": 225,
+      "mode": "osrm"
+    },
+    {
+      "id": 3,
+      "leg": 10,
+      "from": [
+        116.64295,
+        23.3138907
+      ],
+      "to": [
+        116.64306,
+        23.3137216
+      ],
+      "straightDistance": 22,
+      "routeDistance": 6960,
+      "mode": "osrm"
+    },
+    {
+      "id": 129,
+      "leg": 10,
+      "from": [
+        116.6196008,
+        23.217391
+      ],
+      "to": [
+        116.6143188,
+        23.2174317
+      ],
+      "straightDistance": 540,
+      "routeDistance": 705,
+      "mode": "osrm"
+    },
+    {
+      "id": 141,
+      "leg": 14,
+      "from": [
+        113.5352481,
+        22.435092
+      ],
+      "to": [
+        113.5346161,
+        22.4349753
+      ],
+      "straightDistance": 66,
+      "routeDistance": 69,
+      "mode": "osrm"
+    },
+    {
+      "id": 422,
+      "leg": 14,
+      "from": [
+        113.5246976,
+        22.401308
+      ],
+      "to": [
+        113.358694,
+        22.3581737
+      ],
+      "straightDistance": 17730,
+      "routeDistance": 23460,
+      "mode": "osrm"
+    },
+    {
+      "id": 418,
+      "leg": 14,
+      "from": [
+        113.0571063,
+        22.1901433
+      ],
+      "to": [
+        113.0564498,
+        22.1899455
+      ],
+      "straightDistance": 71,
+      "routeDistance": 71,
+      "mode": "osrm"
+    },
+    {
+      "id": 435,
+      "leg": 16,
+      "from": [
+        109.1641302,
+        21.5086353
+      ],
+      "to": [
+        108.8842212,
+        21.6796217
+      ],
+      "straightDistance": 34627,
+      "routeDistance": 59450,
+      "mode": "osrm"
+    },
+    {
+      "id": 783,
+      "leg": 16,
+      "from": [
+        108.4392546,
+        21.7022602
+      ],
+      "to": [
+        108.4372985,
+        21.7022658
+      ],
+      "straightDistance": 202,
+      "routeDistance": 202,
+      "mode": "osrm"
+    },
+    {
+      "id": 393,
+      "leg": 16,
+      "from": [
+        108.3759856,
+        21.7029008
+      ],
+      "to": [
+        108.3759724,
+        21.7028003
+      ],
+      "straightDistance": 11,
+      "routeDistance": 11,
+      "mode": "osrm"
+    }
+  ],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 12,
+    "maximumExtraDistance": 200000,
+    "straightFallbackAllowed": false
+  },
+  "bridgeWarnings": [
+    {
+      "id": 524,
+      "straightDistance": 150134,
+      "routeDistance": 200258,
+      "reason": "large-topology-gap"
+    },
+    {
+      "id": 360,
+      "straightDistance": 3060,
+      "routeDistance": 37099,
+      "reason": "large-routing-detour"
+    }
+  ],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 34,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 199906,
+  "totalDistance": 6796787,
+  "minimumPartDistance": 199906,
+  "maximumPartDistance": 199906,
+  "startWgs84": [
+    124.5134161,
+    40.2314163
+  ],
+  "finishWgs84": [
+    107.9934279,
+    21.5637671
+  ],
+  "viaWgs84": [
+    [
+      121.613249,
+      38.9257022
+    ],
+    [
+      122.1766225,
+      40.6673535
+    ],
+    [
+      119.6012256,
+      39.9412378
+    ],
+    [
+      117.7712866,
+      38.308603
+    ],
+    [
+      119.9107578,
+      37.1819192
+    ],
+    [
+      122.1524659,
+      37.4250371
+    ],
+    [
+      121.6585198,
+      31.2693412
+    ],
+    [
+      121.5057796,
+      29.8746156
+    ],
+    [
+      116.6653416,
+      23.3596067
+    ],
+    [
+      114.534618,
+      22.8541257
+    ],
+    [
+      113.9189487,
+      22.7843227
+    ],
+    [
+      113.4904786,
+      22.6892206
+    ],
+    [
+      113.4766749,
+      22.629794
+    ],
+    [
+      111.9904051,
+      21.8201131
+    ],
+    [
+      110.3356299,
+      21.3057885
+    ],
+    [
+      108.3677086,
+      21.6842303
+    ]
+  ],
+  "startGcj02": [
+    124.5189786499517,
+    40.232806535028494
+  ],
+  "finishGcj02": [
+    107.99732539934388,
+    21.561157601147766
+  ],
+  "referenceValidation": {
+    "engineeringChainDistance": 6916056,
+    "engineeringChainSource": "https://www.jiangmen.gov.cn/attachment/0/356/356634/3389222.pdf",
+    "distanceDifference": -119269,
+    "coordinateRepeatDistance": 964,
+    "milestones": [
+      {
+        "marker": "K5789",
+        "routeDistance": 5756437,
+        "offset": -32563,
+        "snapDistance": 18
+      },
+      {
+        "marker": "K5960",
+        "routeDistance": 5937903,
+        "offset": -22097,
+        "snapDistance": 21
+      },
+      {
+        "marker": "K6787",
+        "routeDistance": 6724536,
+        "offset": -62464,
+        "snapDistance": 46
+      }
+    ],
+    "note": "工程链桩与开放路线几何口径不同；未为匹配参考里程添加重复或人为绕行。"
+  },
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 199906,
+    "maximumAdjacentPartGap": 0
+  }
+}

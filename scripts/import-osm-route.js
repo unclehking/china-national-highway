@@ -149,6 +149,8 @@ function buildGraph(data) {
         && Array.isArray(way.geometry)
         && way.nodes.length === way.geometry.length
         && way.nodes.length > 1
+        && way.tags
+        && (typeof way.tags.highway === 'string' || way.tags.route === 'ferry')
     ));
     const unionFind = new UnionFind();
     const nodeCoordinates = new Map();
@@ -221,7 +223,14 @@ function buildGraph(data) {
         ]));
     });
 
-    return { adjacency, components, nodeCoordinates, uniqueWayCount: ways.length, addEdge };
+    return {
+        adjacency,
+        components,
+        nodeCoordinates,
+        uniqueWayCount: ways.length,
+        wayIds: new Set(ways.map(way => way.id)),
+        addEdge,
+    };
 }
 
 function addComponentBridges(graph, maxGapMeters, gapPenalty, gapFixedPenalty) {
@@ -269,10 +278,8 @@ function extremeEndpoint(graph, direction) {
     }, null);
 }
 
-function nearestEndpoint(graph, coordinate) {
-    const endpoints = [];
-    graph.components.forEach(component => endpoints.push(...component.endpoints));
-    return endpoints.reduce((best, node) => {
+function nearestNode(graph, coordinate) {
+    return Array.from(graph.nodeCoordinates.keys()).reduce((best, node) => {
         if (best === null) {
             return node;
         }
@@ -290,6 +297,15 @@ function parseCoordinate(value, label) {
         throw new Error(`${label} 必须为“经度,纬度”`);
     }
     return coordinate;
+}
+
+function parseCoordinateList(value, label) {
+    if (!value) {
+        return [];
+    }
+    return value.split(';')
+        .filter(item => item.trim())
+        .map((item, index) => parseCoordinate(item.trim(), `${label} 第 ${index + 1} 项`));
 }
 
 function shortestPath(graph, start, finish) {
@@ -317,7 +333,7 @@ function shortestPath(graph, start, finish) {
     }
 
     if (!previous.has(finish)) {
-        throw new Error('无法在最东端与最西端之间重建连续路线，请提高 --max-gap-km 后重试');
+        throw new Error('无法在起点与终点之间重建连续路线，请提高 --max-gap-km 后重试');
     }
     const steps = [];
     let node = finish;
@@ -327,6 +343,20 @@ function shortestPath(graph, start, finish) {
         node = item.node;
     }
     return steps.reverse();
+}
+
+function repeatedTraversalDistance(steps) {
+    const traversedEdges = new Set();
+    return steps.reduce((distance, step) => {
+        const edgeKey = step.from < step.to
+            ? `${step.from}:${step.to}`
+            : `${step.to}:${step.from}`;
+        if (traversedEdges.has(edgeKey)) {
+            return distance + step.edge.actualDistance;
+        }
+        traversedEdges.add(edgeKey);
+        return distance;
+    }, 0);
 }
 
 function requestJson(url, redirects) {
@@ -407,9 +437,14 @@ async function materializePath(graph, steps, options) {
         }
         const start = graph.nodeCoordinates.get(step.from);
         let route;
+        let mode = 'osrm';
         try {
             route = await osrmRoute(start, finish, options.osrmUrl);
-            if (route.distance > Math.max(step.edge.actualDistance * 4, step.edge.actualDistance + 30000)) {
+            const maximumRouteDistance = Math.max(
+                step.edge.actualDistance * options.maxBridgeDetourRatio,
+                step.edge.actualDistance + options.maxBridgeDetourExtra,
+            );
+            if (route.distance > maximumRouteDistance) {
                 throw new Error(`OSRM 绕行过长：${Math.round(route.distance / 1000)} km`);
             }
         } catch (error) {
@@ -417,16 +452,18 @@ async function materializePath(graph, steps, options) {
                 throw new Error(`缺口 ${step.edge.id} 补线失败：${error.message}`);
             }
             route = { coordinates: [start, finish], distance: step.edge.actualDistance };
+            mode = 'straight';
         }
         appendCoordinates(coordinates, route.coordinates);
         appendCoordinates(coordinates, [finish]);
         usedBridges.push({
             id: step.edge.id,
+            leg: step.leg,
             from: start,
             to: finish,
             straightDistance: Math.round(step.edge.actualDistance),
             routeDistance: Math.round(route.distance),
-            mode: route.coordinates.length === 2 ? 'straight' : 'osrm',
+            mode,
         });
         if (options.osrmDelay > 0) {
             await sleep(options.osrmDelay);
@@ -471,6 +508,9 @@ function wgs84ToGcj02(coordinate) {
 }
 
 function splitLine(coordinates, targetDistance) {
+    const totalDistance = lineDistance(coordinates);
+    const partCount = Math.max(1, Math.round(totalDistance / targetDistance));
+    const balancedDistance = totalDistance / partCount;
     const parts = [];
     let current = [coordinates[0]];
     let currentDistance = 0;
@@ -478,8 +518,8 @@ function splitLine(coordinates, targetDistance) {
         let start = coordinates[i - 1];
         const finish = coordinates[i];
         let remaining = haversine(start, finish);
-        while (currentDistance + remaining > targetDistance) {
-            const needed = targetDistance - currentDistance;
+        while (parts.length < partCount - 1 && currentDistance + remaining > balancedDistance) {
+            const needed = balancedDistance - currentDistance;
             const ratio = needed / remaining;
             const split = [
                 start[0] + (finish[0] - start[0]) * ratio,
@@ -497,10 +537,6 @@ function splitLine(coordinates, targetDistance) {
     }
     if (current.length > 1) {
         parts.push(current);
-    }
-    if (parts.length > 1 && lineDistance(parts[parts.length - 1]) < targetDistance * 0.5) {
-        const remainder = parts.pop();
-        parts[parts.length - 1].push(...remainder.slice(1));
     }
     return parts;
 }
@@ -610,12 +646,15 @@ async function main() {
         gapFixedPenalty: Number(args['gap-fixed-km'] || 1) * 1000,
         osrmUrl: args['osrm-url'] || 'https://router.project-osrm.org',
         osrmDelay: Number(args['osrm-delay-ms'] || 1000),
+        maxBridgeDetourRatio: Number(args['max-bridge-detour-ratio'] || 4),
+        maxBridgeDetourExtra: Number(args['max-bridge-detour-extra-km'] || 30) * 1000,
         allowStraightGaps: Boolean(args['allow-straight-gaps']),
         from: args.from || '上海',
         to: args.to || '瑞丽',
         updateIndex: Boolean(args['update-index']),
         startCoordinate: parseCoordinate(args.start, '--start'),
         finishCoordinate: parseCoordinate(args.finish, '--finish'),
+        viaCoordinates: parseCoordinateList(args.via, '--via'),
     };
     const inputBuffer = fs.readFileSync(options.input);
     const data = JSON.parse(inputBuffer.toString('utf8'));
@@ -623,26 +662,64 @@ async function main() {
     if (!relation) {
         throw new Error(`输入中不存在 relation ${options.relation}`);
     }
+    const relationWayIds = new Set(
+        relation.members.filter(member => member.type === 'way').map(member => member.ref),
+    );
 
     const graph = buildGraph(data);
     addComponentBridges(graph, options.maxGapDistance, options.gapPenalty, options.gapFixedPenalty);
     const start = options.startCoordinate
-        ? nearestEndpoint(graph, options.startCoordinate)
+        ? nearestNode(graph, options.startCoordinate)
         : extremeEndpoint(graph, 'east');
     const finish = options.finishCoordinate
-        ? nearestEndpoint(graph, options.finishCoordinate)
+        ? nearestNode(graph, options.finishCoordinate)
         : extremeEndpoint(graph, 'west');
-    const steps = shortestPath(graph, start, finish);
+    const routeNodes = [
+        start,
+        ...options.viaCoordinates.map(coordinate => nearestNode(graph, coordinate)),
+        finish,
+    ].filter((node, index, nodes) => index === 0 || node !== nodes[index - 1]);
+    const steps = [];
+    for (let index = 1; index < routeNodes.length; index += 1) {
+        const legSteps = shortestPath(graph, routeNodes[index - 1], routeNodes[index]);
+        legSteps.forEach(step => { step.leg = index; });
+        steps.push(...legSteps);
+    }
+    const wayById = new Map(
+        data.elements.filter(element => element.type === 'way').map(way => [way.id, way]),
+    );
+    const selectedOsmWayIds = new Set(
+        steps.filter(step => step.edge.kind === 'osm').map(step => step.edge.wayId),
+    );
+    const selectedWays = Array.from(selectedOsmWayIds).map(wayId => wayById.get(wayId));
+    const selectedWayQuality = {
+        uniqueWays: selectedOsmWayIds.size,
+        supplementalWays: Array.from(selectedOsmWayIds)
+            .filter(wayId => !relationWayIds.has(wayId)).length,
+        constructionWays: selectedWays
+            .filter(way => way && way.tags && way.tags.highway === 'construction').length,
+        proposedWays: selectedWays
+            .filter(way => way && way.tags && way.tags.highway === 'proposed').length,
+        nonRoadWayIds: selectedWays
+            .filter(way => !way || !way.tags || !way.tags.highway)
+            .map(way => (way ? way.id : null)),
+    };
     if (args['graph-only']) {
         const bridgeSteps = steps.filter(step => step.edge.kind === 'bridge').map(step => ({
             id: step.edge.id,
+            leg: step.leg,
             from: graph.nodeCoordinates.get(step.from),
             to: graph.nodeCoordinates.get(step.to),
             straightDistance: Math.round(step.edge.actualDistance),
         }));
+        const repeatedEdgeDistance = repeatedTraversalDistance(steps);
         process.stdout.write(`${JSON.stringify({
             components: graph.components.length,
             selectedEdges: steps.length,
+            routeNodes: routeNodes.map(node => graph.nodeCoordinates.get(node)),
+            graphDistance: Math.round(steps.reduce((sum, step) => sum + step.edge.actualDistance, 0)),
+            repeatedEdgeDistance: Math.round(repeatedEdgeDistance),
+            selectedWayQuality,
             bridges: bridgeSteps,
             totalGapDistance: bridgeSteps.reduce((sum, bridge) => sum + bridge.straightDistance, 0),
         }, null, 2)}\n`);
@@ -657,6 +734,22 @@ async function main() {
         : null;
     const provenance = { timestamp: sourceTimestamp };
     const distances = parts.map(lineDistance);
+    const activeRelationWays = Array.from(graph.wayIds)
+        .filter(wayId => relationWayIds.has(wayId)).length;
+    const bridgeWarnings = materialized.usedBridges
+        .filter(bridge => (
+            bridge.straightDistance >= 100000
+            || (bridge.straightDistance > 1000
+                && bridge.routeDistance / bridge.straightDistance > 8)
+        ))
+        .map(bridge => ({
+            id: bridge.id,
+            straightDistance: bridge.straightDistance,
+            routeDistance: bridge.routeDistance,
+            reason: bridge.straightDistance >= 100000
+                ? 'large-topology-gap'
+                : 'large-routing-detour',
+        }));
     const report = {
         road: options.road,
         relation: options.relation,
@@ -665,17 +758,35 @@ async function main() {
         sourceTimestamp,
         inputSha256: crypto.createHash('sha256').update(inputBuffer).digest('hex'),
         uniqueWays: graph.uniqueWayCount,
+        uniqueRelationWays: relationWayIds.size,
+        activeRelationWays,
+        supplementalWays: Math.max(0, graph.uniqueWayCount - activeRelationWays),
         topologyComponents: graph.components.length,
         selectedGraphEdges: steps.length,
+        selectedGraphDistance: Math.round(
+            steps.reduce((sum, step) => sum + step.edge.actualDistance, 0),
+        ),
+        repeatedGraphEdgeDistance: Math.round(repeatedTraversalDistance(steps)),
+        selectedWayQuality,
         bridges: materialized.usedBridges,
+        bridgeRoutingPolicy: {
+            maximumDetourRatio: options.maxBridgeDetourRatio,
+            maximumExtraDistance: options.maxBridgeDetourExtra,
+            straightFallbackAllowed: options.allowStraightGaps,
+        },
+        bridgeWarnings,
         coordinateSystem: 'GCJ-02',
         partCount: parts.length,
         targetPartDistance: options.targetDistance,
+        averagePartDistance: Math.round(
+            distances.reduce((sum, value) => sum + value, 0) / distances.length,
+        ),
         totalDistance: Math.round(distances.reduce((sum, value) => sum + value, 0)),
         minimumPartDistance: Math.round(Math.min(...distances)),
         maximumPartDistance: Math.round(Math.max(...distances)),
         startWgs84: graph.nodeCoordinates.get(start),
         finishWgs84: graph.nodeCoordinates.get(finish),
+        viaWgs84: routeNodes.slice(1, -1).map(node => graph.nodeCoordinates.get(node)),
         startGcj02: gcjCoordinates[0],
         finishGcj02: gcjCoordinates[gcjCoordinates.length - 1],
         validation,
