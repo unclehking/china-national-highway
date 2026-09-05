@@ -1,0 +1,118 @@
+{
+  "road": "G213",
+  "relation": 541817,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-09-05T07:36:27Z",
+  "sourceUrl": "https://www.openstreetmap.org/relation/541817",
+  "sourceCoordinateSystem": "WGS-84",
+  "supplementalSourceTimestamp": "2026-09-05T07:39:36Z",
+  "acquisition": {
+    "provider": "https://overpass-api.de/api/interpreter",
+    "relationQuery": "[out:json][timeout:180][date:\"2026-09-05T07:36:27Z\"];rel(541817);out body;way(r);out body geom;",
+    "supplementalQuery": "[out:json][timeout:120][date:\"2026-09-05T07:39:36Z\"];way(id:620749534,184636584,193281746,236966359,236966370,236979943,103384239,103384317,103384327,320958957,298745335,261923233,1388162305,1388162304,894650677,813431265,772753656,1056788696,157889052,1263991115,1263991118,1524384733,1524384730,930719687,322347779,422332273,167161633,384614576,384463935,403933282,1441486476,384462905);out body geom;",
+    "selection": "以 G213 主关系为基础，补查断点周边道路；优先保留国道与干道连接，剔除无关城市支路。采集道路几何走向，不代表按单行与通行限制计算的驾车导航线路。",
+    "supplementalRole": "32 条补充 way 包含主关系遗漏的桥梁、路口和青藏路等连接道路；其中湟源至西宁方向约 19 km 的 OSM ref 为 G109/G214，按路线连通性推定为共线路段，尚未逐段核实 G213 编号。",
+    "routingServiceRequests": 0,
+    "straightGapCount": 0,
+    "maximumPermittedGraphGap": 1
+  },
+  "inputSha256": "d013a43dd7a4dcd7893ac786b9055db7c55cf55e2b93cce1ffd0a7d000c64ba1",
+  "uniqueWays": 2580,
+  "uniqueRelationWays": 2548,
+  "activeRelationWays": 2548,
+  "supplementalWays": 32,
+  "topologyComponents": 4,
+  "selectedGraphEdges": 53033,
+  "selectedGraphDistance": 4008791,
+  "repeatedGraphEdgeDistance": 0,
+  "selectedWayQuality": {
+    "uniqueWays": 1972,
+    "supplementalWays": 32,
+    "constructionWays": 4,
+    "proposedWays": 0,
+    "nonRoadWayIds": []
+  },
+  "bridges": [],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 4,
+    "maximumExtraDistance": 30000,
+    "straightFallbackAllowed": false
+  },
+  "bridgeWarnings": [],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 20,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 200497,
+  "totalDistance": 4009934,
+  "minimumPartDistance": 200497,
+  "maximumPartDistance": 200497,
+  "startWgs84": [
+    101.2248506,
+    42.5846167
+  ],
+  "finishWgs84": [
+    101.6829413,
+    21.1856913
+  ],
+  "viaWgs84": [],
+  "startGcj02": [
+    101.22703018798312,
+    42.58631838528667
+  ],
+  "finishGcj02": [
+    101.68431113783097,
+    21.183036848579807
+  ],
+  "referenceValidation": {
+    "scope": "依据官方规划核对主要走向，非全线实地或逐点测绘核验。",
+    "route": "策克—额济纳旗—金塔—酒泉—肃南—祁连—海晏—湟源—西宁—平安—化隆—尖扎—同仁—泽库—河南—若尔盖—松潘—茂县—汶川—都江堰—郫都—成都—仁寿—井研—犍为—沐川—绥江—永善—大关—昭通—会泽—寻甸—嵩明—昆明—晋宁—玉溪—元江—墨江—宁洱—普洱—勐腊—磨憨",
+    "planningSource": "https://www.ndrc.gov.cn/xxgk/zcfb/ghwb/202207/P020220712348051707026.pdf",
+    "notes": [
+      "北段采用经酒泉、祁连、西宁、同仁、泽库、河南的现行走向，未拼接老兰州—临夏—合作路线。",
+      "乐都—化隆高速属于 G213；京藏高速短段共线按 OSM 的 G6;G213 标签保留，后者未另行取得官方共线证明。",
+      "会泽路段经过者海、雨碌、驾车方向；官方控制点中的县名不意味着必须经过县城中心。",
+      "输出长度为所采集几何折线长度，不是官方公路里程。"
+    ],
+    "supportingSources": [
+      "https://www.qinghai.gov.cn/dmqh/system/2025/05/14/030072167.shtml",
+      "https://jtyst.yn.gov.cn/html/2025/xingyexinwen_0210/3133708.html",
+      "https://jtyst.yn.gov.cn/html/2025/jiaotongyaowen_0616/3134360.html",
+      "https://jtyst.qinghai.gov.cn/jtyst/2022-12/13/article_2022123015025951128.html"
+    ]
+  },
+  "dataWarnings": [
+    {
+      "type": "osm-construction",
+      "note": "以下 4 条 OSM way 保留了施工中的国道几何，合计约 1.71 km。通行状态与局部精度需另行核验。",
+      "ways": [
+        { "id": 1002203848, "part": 4, "distance": 316, "note": "祁连附近；源数据带有高分辨率影像待校正标记。" },
+        { "id": 1391382653, "part": 12, "distance": 704, "note": "温泉大道二段；源数据 access=no。" },
+        { "id": 1509781999, "part": 16, "distance": 607, "note": "昆明附近 G213/G320 共线。" },
+        { "id": 1510040344, "part": 16, "distance": 84, "note": "昆明南侧 G213/G245 共线。" }
+      ]
+    },
+    {
+      "type": "sparse-source-geometry",
+      "way": 131910529,
+      "maximumAdjacentNodeDistanceWgs84": 17144,
+      "note": "北段荒漠道路的原始 OSM 相邻节点最长约 17.14 km；保留源几何，未使用人工直线补缺。节点间细节未另行加密或实测。"
+    }
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "geometryFormat": "repository Feature/Polyline",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 200497,
+    "maximumAdjacentPartGap": 0,
+    "matchedSourceNodes": 53034,
+    "matchedSourceEdges": 53033,
+    "splitInterpolationPoints": 19,
+    "sourceEdgeCoverage": "passed",
+    "coordinateConversion": "passed",
+    "inputHash": "passed",
+    "apiRoadStatus": 1,
+    "apiPartCount": 20,
+    "apiDetailSamples": [1, 4, 12, 16, 20]
+  }
+}
