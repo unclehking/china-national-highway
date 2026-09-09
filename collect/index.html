@@ -12,6 +12,9 @@
             .sort-handle{
                 cursor: row-resize;
             }
+            .sort-handle.is-disabled{
+                cursor: not-allowed;
+            }
             .green{
                 color: green;
             }
@@ -31,15 +34,19 @@
                 border
                 row-key="_id"
                 class="draggable-table"
+                @sort-change="handleSortChange"
             >
                 <!-- <el-table-column type="index" width="50"></el-table-column> -->
                 <el-table-column prop="index" label="序号" width="70" align="center">
                     <template slot-scope="scope">
-                        <div class="sort-handle">{{ scope.row.index }}</div>
+                        <div class="sort-handle" :class="{'is-disabled': nameSortOrder}"
+                            :title="nameSortOrder ? '取消名称排序后可拖动调整序号' : '拖动调整序号'">{{ scope.row.index }}</div>
                     </template>
                 </el-table-column>
                 <!-- <el-table-column prop="_id" label="ID" width="250" align="center"></el-table-column> -->
-                <el-table-column prop="name" label="名称" width="100" align="center" ></el-table-column>
+                <el-table-column prop="name" label="名称" width="100" align="center"
+                    sortable :sort-method="compareRoadNames"
+                    :sort-orders="['ascending', 'descending', null]"></el-table-column>
                 <el-table-column prop="subTitle" label="描述"  ></el-table-column>
                 <el-table-column prop="status" label="状态" width="220">
                     <template slot-scope="scope">
@@ -137,6 +144,8 @@
                 return { 
                     name: '',
                     tableData: [],
+                    nameSortOrder: null,
+                    rowSortable: null,
                     detail: {},
                     drag: false,
                     currentRoad: {},
@@ -194,11 +203,16 @@
                 this.name = location.hash ? location.hash.replace(/#/g,'') : 'G219'
                 this.loadRoadPaths();
                 const tbody = document.querySelector(".draggable-table .el-table__body-wrapper tbody");
-                new Sortable(tbody, {
+                this.rowSortable = new Sortable(tbody, {
                     animation: 150,
                     handle: ".sort-handle",
+                    disabled: Boolean(this.nameSortOrder),
                     // 需要在odEnd方法中处理原始eltable数据，使原始数据与显示数据保持顺序一致
                     onEnd: ({ newIndex, oldIndex }) => {
+                        // 名称排序只改变显示顺序，不能用显示索引更新原始数据。
+                        if (this.nameSortOrder || newIndex === oldIndex) {
+                            return;
+                        }
                         const targetRow = this.tableData[oldIndex];
                         this.tableData.splice(oldIndex, 1);
                         this.tableData.splice(newIndex, 0, targetRow);
@@ -209,7 +223,24 @@
                 
                 
             },
+            beforeDestroy() {
+                if (this.rowSortable) {
+                    this.rowSortable.destroy();
+                }
+            },
             methods: {
+                compareRoadNames(a, b) {
+                    return String(a.name || '').localeCompare(String(b.name || ''), 'en', {
+                        numeric: true,
+                        sensitivity: 'base'
+                    });
+                },
+                handleSortChange({ prop, order }) {
+                    this.nameSortOrder = prop === 'name' ? order : null;
+                    if (this.rowSortable) {
+                        this.rowSortable.option('disabled', Boolean(this.nameSortOrder));
+                    }
+                },
                 insertImage: function (url) {
                     let range = this.editor.getSelection();
                     this.editor.insertEmbed(range.index, 'image', url)
