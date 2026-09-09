@@ -1,0 +1,462 @@
+{
+  "road": "G108",
+  "relation": 554657,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-09-05T07:54:51Z",
+  "inputSha256": "ebb1f0816c3a193667cd9434ec4b609951f85c833affe3a0e3931c31ffd7fafa",
+  "uniqueWays": 2036,
+  "uniqueRelationWays": 3147,
+  "activeRelationWays": 1879,
+  "supplementalWays": 157,
+  "topologyComponents": 1,
+  "selectedGraphEdges": 42175,
+  "selectedGraphDistance": 3305182,
+  "repeatedGraphEdgeDistance": 0,
+  "selectedWayQuality": {
+    "uniqueWays": 2036,
+    "supplementalWays": 157,
+    "constructionWays": 0,
+    "proposedWays": 0,
+    "nonRoadWayIds": []
+  },
+  "bridges": [],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 4,
+    "maximumExtraDistance": 30000,
+    "straightFallbackAllowed": false
+  },
+  "bridgeWarnings": [],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 17,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 194469,
+  "totalDistance": 3305966,
+  "minimumPartDistance": 194469,
+  "maximumPartDistance": 194469,
+  "startWgs84": [
+    116.3499637,
+    39.9057634
+  ],
+  "finishWgs84": [
+    102.6723137,
+    25.0827482
+  ],
+  "viaWgs84": [
+    [
+      103.7637703,
+      30.4001966
+    ],
+    [
+      103.6369461,
+      30.4034672
+    ],
+    [
+      103.4626158,
+      30.3895525
+    ],
+    [
+      103.098346,
+      30.0753137
+    ]
+  ],
+  "startGcj02": [
+    116.3561462958976,
+    39.907115456184414
+  ],
+  "finishGcj02": [
+    102.67366462128157,
+    25.079711940710666
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 194469,
+    "maximumAdjacentPartGap": 0,
+    "coordinateConversion": "passed",
+    "sourceEdgeCoverageIncludingNearDuplicateRemoval": "passed",
+    "matchedSourceEdges": 42175,
+    "retainedSourceCoordinates": 42175,
+    "splitInterpolationPoints": 16,
+    "nearDuplicateRemoval": {
+      "count": 1,
+      "node": 10562187899,
+      "distanceWgs84": 0.009618499,
+      "threshold": 0.05,
+      "note": "导入器正常去除小于 5 cm 的近重复点；恢复该点后所有边均对应下载的 OSM 相邻源节点。"
+    },
+    "rawSnapshotHashChecks": 7,
+    "inputHash": "passed",
+    "exactDownloadedSourceMatch": "passed",
+    "apiRoadStatus": 1,
+    "apiPartCount": 17,
+    "apiDetailSamples": [1, 3, 12, 13, 17],
+    "visibleAlignmentNotes": [3, 12, 13],
+    "geometryFormat": "repository Feature/Polyline",
+    "maximumSourceAdjacentEdge": {
+      "way": 476875860,
+      "distance": 3396.5461251540496,
+      "from": [
+        108.3350191,
+        34.4501698
+      ],
+      "to": [
+        108.3083054,
+        34.4290117
+      ]
+    }
+  },
+  "sourceUrl": "https://www.openstreetmap.org/relation/554657",
+  "sourceCoordinateSystem": "WGS-84",
+  "collectionScope": "北京—昆明 OSM 道路几何，含旧线及连接路段；不代表最新行政编号已全线确认，也不是按单行、封闭限制计算的导航路线。",
+  "endpointCoverage": "起终点采用 OSM 主关系实际覆盖的北京天宁寺桥附近至昆明普吉附近，未额外延伸到城市中心或规划零公里点。",
+  "acquisition": {
+    "provider": "https://overpass-api.de/api/interpreter",
+    "rawSources": [
+      {
+        "name": "relation",
+        "timestamp": "2026-09-05T07:54:51Z",
+        "sha256": "0070c732da973a1d31f007e7587209f4382d4a612bd0ffcc89aea1ea8dea8650",
+        "elements": 3148,
+        "query": "[out:json][timeout:180];rel(554657);out body;way(r);out body geom;"
+      },
+      {
+        "name": "supplement",
+        "timestamp": "2026-09-05T07:57:51Z",
+        "sha256": "2095cb63da0a1c0e17ea1b2a9c7627f43cacf6baeb60fd77185f9edc30e8612d",
+        "elements": 3852,
+        "query": "[out:json][timeout:180];(\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](39.885609499999994,116.19663940000001,39.895899,116.2072089);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](39.1748067,114.03149590000001,39.185076300000006,114.04310989999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](38.9097573,112.7546995,38.989205199999994,112.82989309999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](38.6929321,112.68968360000001,38.804922,112.8147377);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](38.2775054,112.65980660000001,38.54341049999999,112.78779779999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](38.111038900000004,112.67736140000001,38.2757498,112.77357239999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](37.8670274,112.5733659,37.8802929,112.5837227);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](35.5798318,111.3466361,35.589970900000004,111.356848);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](35.566907500000006,111.2068081,35.6397251,111.30127619999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](35.557791900000005,111.1227106,35.637390499999995,111.2334911);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](35.5857064,110.94248370000001,35.5967306,110.95710369999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](34.7570394,109.2080778,34.768470900000004,109.2186);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](34.0710878,108.18960990000001,34.081543200000006,108.19965739999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](34.069919999999996,108.18942,34.080436500000005,108.1994993);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](33.664739,107.9633628,33.6748532,107.9736769);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](33.5593824,107.9844777,33.569605800000005,107.9954484);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](33.1492088,106.76029360000001,33.159787900000005,106.7706118);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](33.1383775,106.6023021,33.1530101,106.61602189999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](32.018824,105.39961120000001,32.089272099999995,105.4886509);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](30.1701376,103.330996,30.2423966,103.4909788);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](25.108376200000002,102.6462839,25.1185775,102.65713029999999);\nway[highway~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|construction)(_link)?$\"](25.083322000000003,102.66475220000001,25.09339,102.67476029999999);\n);out body geom;"
+      },
+      {
+        "name": "chengdu-g108",
+        "timestamp": "2026-09-05T07:57:51Z",
+        "sha256": "846e71508fba4db7760f7b913f0ee84d58a0c10aa67c3162589669e95e2d5f60",
+        "elements": 401,
+        "query": "[out:json][timeout:90];way[highway][ref~\"(^|;)G108(;|$)\"](29.9,102.9,30.95,104.55);out body geom;"
+      },
+      {
+        "name": "chengdu-g318",
+        "timestamp": "2026-09-05T07:59:51Z",
+        "sha256": "f19a2e882125ac02ad7f9c1943d963cf64196899cd8789d6786174aa80d1d62e",
+        "elements": 258,
+        "query": "[out:json][timeout:90];(way[highway][ref~\"(^|;)G318(;|$)\"](29.9,102.9,30.8,104.3);way[highway][\"old_ref\"~\"G108\"](29.9,102.9,30.8,104.3););out body geom;"
+      },
+      {
+        "name": "xinzhou-g108",
+        "timestamp": "2026-09-05T07:59:51Z",
+        "sha256": "76d2da427dda04c8ee0eb27f530dc661466dd337885547045116c135c787ed25",
+        "elements": 211,
+        "query": "[out:json][timeout:120];way[highway][ref~\"(^|;)G108(;|$)\"](38,112.3,39.5,113.7);out body geom;"
+      },
+      {
+        "name": "xinqiong",
+        "timestamp": "2026-09-05T08:02:57Z",
+        "sha256": "805e8179fae14e3029f07858656736de3fb3dd04033724f3e5396392f1b7b83b",
+        "elements": 1582,
+        "query": "[out:json][timeout:120];way[highway~\"^(trunk|primary|secondary|tertiary)(_link)?$\"](30.33,103.4,30.5,103.9);out body geom;"
+      },
+      {
+        "name": "yaan",
+        "timestamp": "2026-09-05T08:06:06Z",
+        "sha256": "4d4a0161d0749da7ed6f764b1b3901ab56208f4b0b6e61883e410f8572bc5ea6",
+        "elements": 1864,
+        "query": "[out:json][timeout:120];way[highway~\"^(trunk|primary|secondary|tertiary|unclassified|residential)(_link)?$\"](29.94,102.94,30.13,103.16);out body geom;"
+      }
+    ],
+    "mergeOrder": [
+      "relation",
+      "supplement",
+      "chengdu-g108",
+      "chengdu-g318",
+      "xinzhou-g108",
+      "xinqiong",
+      "yaan"
+    ],
+    "selection": "以主关系为骨架补查断点；优先有 G108 标签的道路。新津—邛崃—名山按注明的既有京昆线设置途经点。最终输入仅保留选中源 way 和主关系元数据，剔除未选中的分支。",
+    "selectedSupplementalWayIds": [
+      218129903,
+      218129886,
+      1239037768,
+      29179924,
+      1044777664,
+      1445645024,
+      1034981207,
+      207172301,
+      1157850892,
+      544842739,
+      1157850893,
+      1157850894,
+      1218008996,
+      544746199,
+      1218008986,
+      1218008989,
+      1218008980,
+      1218008982,
+      1218008977,
+      1157702148,
+      1157702149,
+      1157702140,
+      1157702141,
+      1157702138,
+      1157702139,
+      1290747292,
+      1290747291,
+      1157702136,
+      1290747294,
+      1290747296,
+      1290747298,
+      1290747299,
+      1290747303,
+      1290747305,
+      1157702137,
+      1157702131,
+      1206498869,
+      1206498868,
+      1206498873,
+      1206498872,
+      1470031641,
+      1470207100,
+      1470207098,
+      1470207095,
+      1470207092,
+      1470207091,
+      1470207089,
+      1470207082,
+      1470207079,
+      1470031643,
+      1470031648,
+      1171098757,
+      1470031647,
+      1470031630,
+      933633474,
+      1473697810,
+      461147791,
+      461147784,
+      255525934,
+      461147822,
+      1416739218,
+      1416739217,
+      1445475561,
+      1445475562,
+      1487722413,
+      767935014,
+      302263947,
+      302263948,
+      550217740,
+      550217741,
+      1550939172,
+      1286740822,
+      1286740819,
+      1268054356,
+      782301704,
+      782301705,
+      1254133763,
+      1254133762,
+      1253893856,
+      1009539145,
+      1430174018,
+      1377439694,
+      539235903,
+      469664187,
+      536476782,
+      536476795,
+      536476791,
+      536476792,
+      536476796,
+      536476797,
+      536476793,
+      536476794,
+      536476884,
+      536476787,
+      1285260556,
+      1377439688,
+      832896421,
+      700550691,
+      1377439679,
+      700550697,
+      1304218295,
+      1377439684,
+      1285260552,
+      1383491600,
+      1377439671,
+      157818634,
+      1219308742,
+      157818662,
+      538611741,
+      1424341610,
+      538611729,
+      787899059,
+      787899058,
+      1424341611,
+      157818650,
+      307495685,
+      307495686,
+      209548592,
+      788049865,
+      788091500,
+      1057065258,
+      788091499,
+      788091501,
+      52030337,
+      1353168712,
+      1353168711,
+      989389763,
+      1012677901,
+      989389762,
+      989389761,
+      989389760,
+      989389759,
+      989389758,
+      315414276,
+      1501614225,
+      723740820,
+      1225515883,
+      1369772891,
+      1369772890,
+      501778519,
+      582937764,
+      501778522,
+      723740808,
+      723740806,
+      582937806,
+      501778523,
+      582937766,
+      497973902,
+      1220427129,
+      1220427133,
+      1220427134,
+      1220427135,
+      1220427137,
+      343836203,
+      1124348270,
+      343835254,
+      1492473752
+    ],
+    "selectedSupplementalDistanceWgs84": 171091,
+    "geometryRoutingRequests": 0,
+    "straightGapCount": 0,
+    "maximumPermittedGraphGap": 1
+  },
+  "referenceValidation": {
+    "scope": "核对主要控制点及有争议路段的公开资料；未进行全线逐点测绘或全部行政编号核实。",
+    "planningSource": "https://www.ndrc.gov.cn/xxgk/zcfb/ghwb/202207/P020220712348051707026.pdf",
+    "notes": [
+      "陕西采用韩城—合阳—蒲城—富平—三原—礼泉—武功—周至—佛坪—汉中走向。",
+      "原平局部采用已存在的京原北路/平安东大街衔接；砂河—石岭关 2026 新线已获运营批复，OSM 局部关系和编号尚不完整。",
+      "忻州至阳曲部分采用太忻大道；若干相连的 OSM way 未填 ref，按路线连续性选取，不能据此确认全部最新 G108 归属。",
+      "蒲名快速路二期公开建设计划为 2027 年完工。本次选择经新津、新邛公路、邛崃、名山至雅安的既有通车几何，部分 OSM ref 为 S105/G318/G351。",
+      "新邛路在不同官方资料中分别列为 G108 和 S105；采用旧线衔接不等于确认它仍是现行 G108 全线主线。",
+      "总里程为几何折线计算结果，不是官方公路里程。"
+    ],
+    "sources": [
+      {
+        "subject": "砂河—石岭关运营批复",
+        "url": "https://www.sx-jc.gov.cn/zwyw/szfyw/swj/202603/t20260311_2020286.html"
+      },
+      {
+        "subject": "蒲名二期建设计划：蒲江县交通运输局答复",
+        "url": "https://epaper.scdaily.cn/shtml/scrb/20250414/325047.shtml"
+      },
+      {
+        "subject": "2025 施工图仍称 G108 新邛路",
+        "url": "https://ggzyjy.sc.gov.cn/BigFileUpLoadStorage/temp/2025-05-16/a51e0165-a96c-4ead-a2f0-0b4f8813ddba/TJ4%E5%9B%BE8.pdf"
+      },
+      {
+        "subject": "2026 交通气象公告的成都—邛崃—雅安 G108 通道",
+        "url": "https://www.mct.gov.cn/wlbphone/wlbydd/ggfw/cxts/202601/t20260113_964103.html"
+      },
+      {
+        "subject": "雅安交通局说明历史 G108/G318 共线",
+        "url": "https://jtj.yaan.gov.cn/xinwen/show/58f9063c-0414-4162-a04a-e986aea4088a.html"
+      },
+      {
+        "subject": "编号差异：2025 披露将新邛路列为 S105",
+        "url": "https://static.sse.com.cn/bond/bridge2/disclosure/announcement/c/202503/e34c93_20250320_NZQQ.pdf"
+      },
+      {
+        "subject": "北京国道起点及莲石快速等级历史标准",
+        "url": "https://jtw.beijing.gov.cn/xxgk/zxgkxx1/201912/P020191231424177798062.pdf"
+      }
+    ]
+  },
+  "dataWarnings": [
+    {
+      "type": "alignment-review-needed",
+      "parts": [
+        3
+      ],
+      "note": "原平旧线和 G338 连接道路、忻州太忻大道部分缺 ref；最新 G108 改线归属仍需核验。",
+      "connections": [
+        {
+          "way": 1034981207,
+          "name": "京原北路",
+          "osmRef": "old_ref=G108",
+          "distance": 3326,
+          "fromWgs84": [
+            112.7246836,
+            38.769922
+          ],
+          "toWgs84": [
+            112.7169031,
+            38.7406569
+          ]
+        },
+        {
+          "way": 207172301,
+          "name": "平安东大街",
+          "osmRef": "G338",
+          "distance": 4920,
+          "fromWgs84": [
+            112.7169031,
+            38.7406569
+          ],
+          "toWgs84": [
+            112.7710115,
+            38.7297015
+          ]
+        }
+      ]
+    },
+    {
+      "type": "legacy-alignment",
+      "parts": [
+        12,
+        13
+      ],
+      "note": "新津—新邛公路—邛崃—名山—雅安采用既有京昆线衔接。蒲名新线二期未贯通，当前源数据含 S105/G318/G351，最新行政编号未完全确认。",
+      "viaWgs84": [
+        [
+          103.7637703,
+          30.4001966
+        ],
+        [
+          103.6369461,
+          30.4034672
+        ],
+        [
+          103.4626158,
+          30.3895525
+        ],
+        [
+          103.098346,
+          30.0753137
+        ]
+      ]
+    },
+    {
+      "type": "rough-source-geometry",
+      "parts": [
+        12,
+        13
+      ],
+      "wayIds": [
+        157818634,
+        307495685,
+        307495686,
+        209548592,
+        788049865
+      ],
+      "note": "这些源 way 带有粗略几何待校正标记；保留源坐标，未人为加密或声称已实测校正。"
+    }
+  ]
+}
