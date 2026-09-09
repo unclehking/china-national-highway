@@ -1,0 +1,1606 @@
+{
+  "road": "G214",
+  "relation": 358995,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-09-09T01:38:01Z",
+  "inputSha256": "f11ae11996c38b89f48a09134a7b55728c5951ff75373ef8dee8cf6817690e84",
+  "uniqueWays": 1055,
+  "uniqueRelationWays": 1201,
+  "activeRelationWays": 1022,
+  "supplementalWays": 33,
+  "topologyComponents": 1,
+  "selectedGraphEdges": 37045,
+  "selectedGraphDistance": 2921612,
+  "repeatedGraphEdgeDistance": 0,
+  "selectedWayQuality": {
+    "uniqueWays": 1055,
+    "supplementalWays": 33,
+    "constructionWays": 0,
+    "proposedWays": 0,
+    "nonRoadWayIds": []
+  },
+  "bridges": [],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 4,
+    "maximumExtraDistance": 30000,
+    "straightFallbackAllowed": false
+  },
+  "bridgeWarnings": [],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 15,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 194825,
+  "totalDistance": 2922369,
+  "minimumPartDistance": 194824,
+  "maximumPartDistance": 194835,
+  "startWgs84": [
+    101.76738,
+    36.6190742
+  ],
+  "finishWgs84": [
+    99.9234984,
+    22.5515769
+  ],
+  "viaWgs84": [],
+  "startGcj02": [
+    101.76932630680655,
+    36.61900246919373
+  ],
+  "finishGcj02": [
+    99.92433848808636,
+    22.54843783997266
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 194835,
+    "maximumAdjacentPartGap": 0,
+    "sourceElementsUnmodified": true,
+    "sourceEdgesVerified": 37045,
+    "repeatedSourceEdges": 0,
+    "rawCoordinateCount": 37046,
+    "nearDuplicatePointsRemoved": 1,
+    "convertedCoordinatesVerified": 33696,
+    "convertedCoordinatesMatchedAtSixDecimals": 36992,
+    "splitInterpolationPointsVerified": 14,
+    "storedCoordinateCount": 37103,
+    "postImportEditedParts": [
+      15
+    ],
+    "postImportOmittedSourceCoordinates": 53,
+    "postImportAddedOrAdjustedCoordinates": 83,
+    "distanceRecalculation": "passed",
+    "sourceHashesVerified": true
+  },
+  "collectionScope": {
+    "from": "西宁",
+    "to": "澜沧",
+    "routeName": "西宁—澜沧公路（G214，西澜线）",
+    "startCoverage": "西宁市昆仑桥附近，经昆仑西路、昆仑大道西段衔接 OSM G214 主关系；该市区约22.3 km路段来源标注G109/G227，G214精确零公里和最新市区线位待核验。",
+    "finishCoverage": "澜沧县城南侧 OSM G214/G227 共线路段端点，不延伸至旧终点景洪。"
+  },
+  "references": [
+    {
+      "title": "国家公路网规划（2022年7月），普通国道G214西宁—澜沧，第34页（PDF页码从0计）",
+      "url": "https://www.ndrc.gov.cn/xxgk/zcfb/ghwb/202207/P020220712348051707026.pdf",
+      "supports": "起讫点及主要控制点"
+    },
+    {
+      "title": "青海省交通运输厅：湟源公路总段G214西宁—澜沧公路修复养护工程公告",
+      "url": "https://jtyst.qinghai.gov.cn/jtyst/2024-11/11/article_2024111115542152263.html",
+      "supports": "青海段起于西宁，经共和、兴海、玛多、称多、玉树、囊谦，至青藏省界"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "file": "relation.json",
+      "timestamp": "2026-09-09T01:38:01Z",
+      "sha256": "2ebf543c6d153ca473544321b5443009acefe8c5a9923d3383169c50ad965b4d",
+      "elements": 1202,
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "query": "[out:json][timeout:180];relation(358995);out body;way(r);out body geom;"
+    },
+    {
+      "file": "supplement.json",
+      "timestamp": "2026-09-09T01:39:02Z",
+      "sha256": "a540cd46ead360ce23965e8039644b6ffe4587455022e45b5e6be0cd2e922fa5",
+      "elements": 880,
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "query": "[out:json][timeout:180];(way(around:2000,31.1407,97.1757)[\"highway\"];way(around:1000,29.7032,97.8041)[\"highway\"];way(around:2000,28.723,98.685)[\"highway\"];way(around:1500,28.0946,99.4157)[\"highway\"];way(around:1500,27.005,100.071)[\"highway\"];way(around:2500,24.43,100.129)[\"highway\"];way[\"highway\"][\"ref\"~\"G109\"](36.55,101.45,36.75,101.85););out body geom;"
+    }
+  ],
+  "routeSelection": {
+    "policy": "仅使用实际 OSM 公路几何；排除高速、施工、规划、步行及私人/禁行道路。优先主关系成员或ref包含G214的道路，其他补充道路路径代价乘25；再保留选中的完整原始ways交由仓库导入器重建。",
+    "osmRoutingRequests": 0,
+    "artificialGapSegments": 0,
+    "directedNavigation": false,
+    "rejectedShortcuts": [
+      {
+        "wayId": 444599937,
+        "reason": "无G214标识的居民道路近路，改用已有G214道路"
+      },
+      {
+        "wayId": 528021589,
+        "reason": "云南坝隧道G317近路，改用G214关系中的昌都市区道路"
+      }
+    ],
+    "supplementalWays": [
+      {
+        "id": 32838215,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "lanes": "2",
+          "layer": "2",
+          "name": "昆仑桥",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 152.38281386827055
+      },
+      {
+        "id": 379232949,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "lanes": "2",
+          "layer": "1",
+          "name": "昆仑桥",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 199.53037544841797
+      },
+      {
+        "id": 32838218,
+        "tags": {
+          "highway": "trunk",
+          "lanes": "2",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 78.74694475769849
+      },
+      {
+        "id": 1079829845,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109;G227"
+        },
+        "relationMember": false,
+        "distance": 72.55288537925553
+      },
+      {
+        "id": 184330057,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "lanes": "2",
+          "layer": "1",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109;G227"
+        },
+        "relationMember": false,
+        "distance": 579.5690557188852
+      },
+      {
+        "id": 1070578260,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109;G227"
+        },
+        "relationMember": false,
+        "distance": 884.3444021432412
+      },
+      {
+        "id": 1079828986,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 1137.467491902034
+      },
+      {
+        "id": 1079828993,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 292.5065635674387
+      },
+      {
+        "id": 1079828994,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "layer": "1",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 280.53615873259895
+      },
+      {
+        "id": 1079828991,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 416.40304631143863
+      },
+      {
+        "id": 184330049,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 1608.586317704728
+      },
+      {
+        "id": 542833990,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 211.35268161681742
+      },
+      {
+        "id": 312591333,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑西路",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 2120.2855297318833
+      },
+      {
+        "id": 780234197,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 1173.7580959217053
+      },
+      {
+        "id": 1070578262,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 302.911846695627
+      },
+      {
+        "id": 698008523,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 353.36150335241086
+      },
+      {
+        "id": 698008535,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "layer": "2",
+          "name": "湟水河大桥",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 1359.1550215265459
+      },
+      {
+        "id": 780339663,
+        "tags": {
+          "highway": "trunk",
+          "lanes": "3",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 5648.266322332913
+      },
+      {
+        "id": 698008528,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "layer": "1",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 223.5217939657515
+      },
+      {
+        "id": 698008529,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 1151.2726578082397
+      },
+      {
+        "id": 698008531,
+        "tags": {
+          "highway": "trunk",
+          "layer": "-1",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109",
+          "tunnel": "yes"
+        },
+        "relationMember": false,
+        "distance": 1480.4589178725896
+      },
+      {
+        "id": 698008533,
+        "tags": {
+          "highway": "trunk",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109"
+        },
+        "relationMember": false,
+        "distance": 2481.47414905095
+      },
+      {
+        "id": 780339697,
+        "tags": {
+          "highway": "trunk",
+          "layer": "-1",
+          "name": "昆仑大道西段",
+          "oneway": "yes",
+          "ref": "G109",
+          "tunnel": "yes"
+        },
+        "relationMember": false,
+        "distance": 118.37980531231646
+      },
+      {
+        "id": 293809385,
+        "tags": {
+          "highway": "primary",
+          "oneway": "yes"
+        },
+        "relationMember": false,
+        "distance": 78.33906948140253
+      },
+      {
+        "id": 528026363,
+        "tags": {
+          "highway": "primary",
+          "name": "胜利街",
+          "oneway": "yes"
+        },
+        "relationMember": false,
+        "distance": 19.68611796825708
+      },
+      {
+        "id": 530844681,
+        "tags": {
+          "highway": "secondary",
+          "name": "昌都西路",
+          "source": "GPS"
+        },
+        "relationMember": false,
+        "distance": 4.659471674111947
+      },
+      {
+        "id": 1388178348,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "layer": "1",
+          "name": "西宁 - 澜沧",
+          "name:en": "Tibet Highway",
+          "ref": "G214;G318",
+          "source": "esriWorld"
+        },
+        "relationMember": false,
+        "distance": 16.921090568969152
+      },
+      {
+        "id": 320804588,
+        "tags": {
+          "highway": "trunk",
+          "ref": "G214",
+          "surface": "paved"
+        },
+        "relationMember": false,
+        "distance": 611.8784953916853
+      },
+      {
+        "id": 740103191,
+        "tags": {
+          "highway": "trunk",
+          "ref": "G214"
+        },
+        "relationMember": false,
+        "distance": 80.3919582210229
+      },
+      {
+        "id": 1528812404,
+        "tags": {
+          "highway": "trunk",
+          "ref": "G214",
+          "surface": "asphalt"
+        },
+        "relationMember": false,
+        "distance": 25.183949715371476
+      },
+      {
+        "id": 1528812405,
+        "tags": {
+          "highway": "trunk",
+          "ref": "G214"
+        },
+        "relationMember": false,
+        "distance": 26.463965085635216
+      },
+      {
+        "id": 1390005838,
+        "tags": {
+          "highway": "trunk",
+          "name": "祥临公路",
+          "ref": "G214",
+          "source": "bing"
+        },
+        "relationMember": false,
+        "distance": 467.0978633069232
+      },
+      {
+        "id": 1390005837,
+        "tags": {
+          "bridge": "yes",
+          "highway": "trunk",
+          "layer": "1",
+          "name": "祥临公路",
+          "ref": "G214",
+          "source": "bing"
+        },
+        "relationMember": false,
+        "distance": 286.5951119906887
+      }
+    ]
+  },
+  "sourceQuality": {
+    "fixmeWays": [
+      {
+        "wayId": 39495665,
+        "fixme": "retrace",
+        "parts": [
+          6
+        ],
+        "distance": 15715
+      },
+      {
+        "wayId": 1421311238,
+        "fixme": "retrace",
+        "parts": [
+          6
+        ],
+        "distance": 16
+      },
+      {
+        "wayId": 1421311239,
+        "fixme": "retrace",
+        "parts": [
+          6
+        ],
+        "distance": 6816
+      },
+      {
+        "wayId": 1119920751,
+        "fixme": "retrace",
+        "parts": [
+          7
+        ],
+        "distance": 4606
+      },
+      {
+        "wayId": 406899172,
+        "fixme": "retrace",
+        "parts": [
+          7
+        ],
+        "distance": 5206
+      },
+      {
+        "wayId": 406899161,
+        "fixme": "retrace",
+        "parts": [
+          7
+        ],
+        "distance": 113
+      },
+      {
+        "wayId": 406899158,
+        "fixme": "retrace",
+        "parts": [
+          7
+        ],
+        "distance": 3533
+      },
+      {
+        "wayId": 406899160,
+        "fixme": "retrace",
+        "parts": [
+          7
+        ],
+        "distance": 107
+      },
+      {
+        "wayId": 406899157,
+        "fixme": "retrace",
+        "parts": [
+          7
+        ],
+        "distance": 1389
+      },
+      {
+        "wayId": 49863640,
+        "fixme": "retrace using osm GPS Traces layer",
+        "parts": [
+          9
+        ],
+        "distance": 3636
+      },
+      {
+        "wayId": 49863656,
+        "fixme": "retrace using osm GPS Traces layer",
+        "parts": [
+          9
+        ],
+        "distance": 4183
+      }
+    ],
+    "sparseSampling": {
+      "thresholdMeters": 1500,
+      "maximumSourceEdgeMeters": 7001,
+      "nonTunnelEdges": [
+        {
+          "wayId": 236783343,
+          "from": [
+            101.2677112,
+            36.6436354
+          ],
+          "to": [
+            101.2579291,
+            36.6283271
+          ],
+          "distance": 1913,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 369542665,
+          "from": [
+            100.844652,
+            36.363336
+          ],
+          "to": [
+            100.8156024,
+            36.35888
+          ],
+          "distance": 2648,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 369542665,
+          "from": [
+            100.779715,
+            36.353596
+          ],
+          "to": [
+            100.757942,
+            36.352205
+          ],
+          "distance": 1956,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.5257811,
+            36.1973691
+          ],
+          "to": [
+            100.5171702,
+            36.1760888
+          ],
+          "distance": 2489,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.5157992,
+            36.1739618
+          ],
+          "to": [
+            100.4956922,
+            36.1572488
+          ],
+          "distance": 2591,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.4799002,
+            36.1441878
+          ],
+          "to": [
+            100.4560902,
+            36.1234507
+          ],
+          "distance": 3145,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.427058,
+            36.1144672
+          ],
+          "to": [
+            100.409437,
+            36.1041321
+          ],
+          "distance": 1956,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.409437,
+            36.1041321
+          ],
+          "to": [
+            100.3730904,
+            36.08245
+          ],
+          "distance": 4059,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.3730904,
+            36.08245
+          ],
+          "to": [
+            100.3222312,
+            36.0519875
+          ],
+          "distance": 5690,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.3137462,
+            36.0384535
+          ],
+          "to": [
+            100.2772254,
+            36.0237393
+          ],
+          "distance": 3669,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.2772254,
+            36.0237393
+          ],
+          "to": [
+            100.2540874,
+            36.0144156
+          ],
+          "distance": 2325,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.2540874,
+            36.0144156
+          ],
+          "to": [
+            100.2269793,
+            36.0032757
+          ],
+          "distance": 2735,
+          "parts": [
+            1
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.1836978,
+            35.985621
+          ],
+          "to": [
+            100.1624372,
+            35.9768113
+          ],
+          "distance": 2149,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.1128972,
+            35.9411326
+          ],
+          "to": [
+            100.0676992,
+            35.9313762
+          ],
+          "distance": 4211,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 283644223,
+          "from": [
+            100.0388682,
+            35.9197092
+          ],
+          "to": [
+            100.0216685,
+            35.9118266
+          ],
+          "distance": 1780,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 166912007,
+          "from": [
+            99.9802278,
+            35.8923284
+          ],
+          "to": [
+            99.9619701,
+            35.8837739
+          ],
+          "distance": 1900,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259541,
+          "from": [
+            99.85339,
+            35.804459
+          ],
+          "to": [
+            99.7856589,
+            35.8352397
+          ],
+          "distance": 7001,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259541,
+          "from": [
+            99.779916,
+            35.837849
+          ],
+          "to": [
+            99.761427,
+            35.846191
+          ],
+          "distance": 1907,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259541,
+          "from": [
+            99.7481446,
+            35.8522252
+          ],
+          "to": [
+            99.7219983,
+            35.8640309
+          ],
+          "distance": 2697,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259541,
+          "from": [
+            99.7219983,
+            35.8640309
+          ],
+          "to": [
+            99.6935435,
+            35.8768769
+          ],
+          "distance": 2935,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 187716633,
+          "from": [
+            99.6838676,
+            35.8761193
+          ],
+          "to": [
+            99.6724986,
+            35.8639622
+          ],
+          "distance": 1696,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 187716633,
+          "from": [
+            99.667171,
+            35.8582586
+          ],
+          "to": [
+            99.6602938,
+            35.8437093
+          ],
+          "distance": 1732,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 187716633,
+          "from": [
+            99.6602938,
+            35.8437093
+          ],
+          "to": [
+            99.65233,
+            35.826858
+          ],
+          "distance": 2007,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259010,
+          "from": [
+            99.553894,
+            35.768164
+          ],
+          "to": [
+            99.552193,
+            35.751493
+          ],
+          "distance": 1860,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 166728066,
+          "from": [
+            99.543631,
+            35.688735
+          ],
+          "to": [
+            99.540359,
+            35.673178
+          ],
+          "distance": 1755,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259027,
+          "from": [
+            99.528257,
+            35.600306
+          ],
+          "to": [
+            99.523979,
+            35.581698
+          ],
+          "distance": 2105,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396259024,
+          "from": [
+            99.4837501,
+            35.4518252
+          ],
+          "to": [
+            99.478466,
+            35.436568
+          ],
+          "distance": 1763,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.247064,
+            35.367439
+          ],
+          "to": [
+            99.2223368,
+            35.3553308
+          ],
+          "distance": 2615,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.2194461,
+            35.3554676
+          ],
+          "to": [
+            99.202295,
+            35.3599524
+          ],
+          "distance": 1633,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.19525,
+            35.360337
+          ],
+          "to": [
+            99.148115,
+            35.35914
+          ],
+          "distance": 4276,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.144674,
+            35.358399
+          ],
+          "to": [
+            99.125341,
+            35.353491
+          ],
+          "distance": 1836,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.123294,
+            35.35297
+          ],
+          "to": [
+            99.107423,
+            35.348973
+          ],
+          "distance": 1506,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.082761,
+            35.341376
+          ],
+          "to": [
+            99.068856,
+            35.333121
+          ],
+          "distance": 1560,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.0460105,
+            35.3195652
+          ],
+          "to": [
+            99.023701,
+            35.306289
+          ],
+          "distance": 2505,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 311391932,
+          "from": [
+            99.015064,
+            35.297943
+          ],
+          "to": [
+            99.000513,
+            35.273059
+          ],
+          "distance": 3066,
+          "parts": [
+            2
+          ]
+        },
+        {
+          "wayId": 396101356,
+          "from": [
+            98.94114,
+            35.164628
+          ],
+          "to": [
+            98.920713,
+            35.150619
+          ],
+          "distance": 2424,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 396101356,
+          "from": [
+            98.920713,
+            35.150619
+          ],
+          "to": [
+            98.8909117,
+            35.1302624
+          ],
+          "distance": 3531,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627541970,
+          "from": [
+            98.587687,
+            34.99811
+          ],
+          "to": [
+            98.56457,
+            34.972537
+          ],
+          "distance": 3539,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627541970,
+          "from": [
+            98.544115,
+            34.949923
+          ],
+          "to": [
+            98.5239951,
+            34.9276736
+          ],
+          "distance": 3080,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627362638,
+          "from": [
+            98.4934882,
+            34.8919454
+          ],
+          "to": [
+            98.4820642,
+            34.881004
+          ],
+          "distance": 1602,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627362638,
+          "from": [
+            98.4802147,
+            34.8796706
+          ],
+          "to": [
+            98.462775,
+            34.8705736
+          ],
+          "distance": 1885,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627362638,
+          "from": [
+            98.4596996,
+            34.8684082
+          ],
+          "to": [
+            98.4459734,
+            34.8529832
+          ],
+          "distance": 2124,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627362638,
+          "from": [
+            98.3343406,
+            34.8338269
+          ],
+          "to": [
+            98.3141986,
+            34.8447221
+          ],
+          "distance": 2202,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627362638,
+          "from": [
+            98.2788838,
+            34.8609147
+          ],
+          "to": [
+            98.2384662,
+            34.8818619
+          ],
+          "distance": 4361,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 627369000,
+          "from": [
+            98.1981544,
+            34.8904378
+          ],
+          "to": [
+            98.1785989,
+            34.8860116
+          ],
+          "distance": 1850,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 396267657,
+          "from": [
+            98.0215645,
+            34.6304625
+          ],
+          "to": [
+            98.0071342,
+            34.6151311
+          ],
+          "distance": 2156,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 396267657,
+          "from": [
+            98.0071342,
+            34.6151311
+          ],
+          "to": [
+            97.9950996,
+            34.6022521
+          ],
+          "distance": 1807,
+          "parts": [
+            3
+          ]
+        },
+        {
+          "wayId": 1442068976,
+          "from": [
+            97.634833,
+            34.102057
+          ],
+          "to": [
+            97.6202728,
+            34.0927808
+          ],
+          "distance": 1692,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 239117659,
+          "from": [
+            97.6132732,
+            34.0840366
+          ],
+          "to": [
+            97.6065145,
+            34.0710454
+          ],
+          "distance": 1573,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 239117659,
+          "from": [
+            97.487975,
+            34.008354
+          ],
+          "to": [
+            97.464876,
+            33.99763
+          ],
+          "distance": 2440,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 239117659,
+          "from": [
+            97.464876,
+            33.99763
+          ],
+          "to": [
+            97.448307,
+            33.988754
+          ],
+          "distance": 1819,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 239117659,
+          "from": [
+            97.388885,
+            33.975828
+          ],
+          "to": [
+            97.364897,
+            33.975801
+          ],
+          "distance": 2212,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 394233186,
+          "from": [
+            97.1650948,
+            33.7300736
+          ],
+          "to": [
+            97.170766,
+            33.716272
+          ],
+          "distance": 1622,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 394233186,
+          "from": [
+            97.179936,
+            33.703925
+          ],
+          "to": [
+            97.187835,
+            33.6914137
+          ],
+          "distance": 1571,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 1444796308,
+          "from": [
+            97.217912,
+            33.550202
+          ],
+          "to": [
+            97.22828,
+            33.536779
+          ],
+          "distance": 1775,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 1036799205,
+          "from": [
+            97.2469,
+            33.508589
+          ],
+          "to": [
+            97.241148,
+            33.493161
+          ],
+          "distance": 1797,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 396292631,
+          "from": [
+            97.3139965,
+            33.3945909
+          ],
+          "to": [
+            97.325024,
+            33.382059
+          ],
+          "distance": 1729,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 396292631,
+          "from": [
+            97.350068,
+            33.3544
+          ],
+          "to": [
+            97.3707725,
+            33.3474379
+          ],
+          "distance": 2073,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 396292631,
+          "from": [
+            97.442894,
+            33.313488
+          ],
+          "to": [
+            97.457594,
+            33.295277
+          ],
+          "distance": 2443,
+          "parts": [
+            4
+          ]
+        },
+        {
+          "wayId": 325068897,
+          "from": [
+            97.0052012,
+            32.8525525
+          ],
+          "to": [
+            96.9838722,
+            32.8565902
+          ],
+          "distance": 2042,
+          "parts": [
+            5
+          ]
+        },
+        {
+          "wayId": 325068897,
+          "from": [
+            96.9838722,
+            32.8565902
+          ],
+          "to": [
+            96.9617065,
+            32.860808
+          ],
+          "distance": 2123,
+          "parts": [
+            5
+          ]
+        },
+        {
+          "wayId": 39496052,
+          "from": [
+            96.9406982,
+            32.8670417
+          ],
+          "to": [
+            96.911495,
+            32.8649535
+          ],
+          "distance": 2737,
+          "parts": [
+            5
+          ]
+        },
+        {
+          "wayId": 39496052,
+          "from": [
+            96.8405988,
+            32.8711533
+          ],
+          "to": [
+            96.8156366,
+            32.8772491
+          ],
+          "distance": 2428,
+          "parts": [
+            5
+          ]
+        },
+        {
+          "wayId": 39496052,
+          "from": [
+            96.8081226,
+            32.8790917
+          ],
+          "to": [
+            96.7891541,
+            32.8837589
+          ],
+          "distance": 1846,
+          "parts": [
+            5
+          ]
+        },
+        {
+          "wayId": 255742418,
+          "from": [
+            97.0933489,
+            30.656891
+          ],
+          "to": [
+            97.0865752,
+            30.6440663
+          ],
+          "distance": 1566,
+          "parts": [
+            8
+          ]
+        },
+        {
+          "wayId": 255742412,
+          "from": [
+            97.2244016,
+            30.3936783
+          ],
+          "to": [
+            97.2301652,
+            30.3790054
+          ],
+          "distance": 1723,
+          "parts": [
+            8
+          ]
+        }
+      ],
+      "note": "这些长边已存在于OSM源道路，并非人工直线补缺；未用插值伪装采样精度，实际线形仍需核验。"
+    }
+  },
+  "limitations": [
+    "这是公开OSM路线几何采集，不是官方测绘或实时通行导航数据；忽略单行方向进行线形重建。",
+    "第1段沿G109/G227补充西宁市区衔接，精确起点和最新G214市区归属待核验。",
+    "昌都胜利街及昌都西路等3个短连接段合计约103米缺少G214标识，保留实际道路并提示归属待核验。",
+    "部分源道路带有fixme/retrace标记，青海等路段采样较稀疏（最长原始边约7km），不代表全线几何精度已经确认。",
+    "第15段在初次导入后通过采集页面做过局部线形调整并以六位小数保存；该段不再逐点复现原始OSM节点，报告已按保存结果重算。"
+  ]
+}

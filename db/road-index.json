@@ -96,6 +96,12 @@
       "subTitle": "瑞金-临沧",
       "status": 0,
       "index": 15
+    },
+    {
+      "name": "G214",
+      "subTitle": "西宁—澜沧",
+      "status": 1,
+      "index": 16
     }
   ]
 }
