@@ -20,7 +20,14 @@
     </head>
     <body>
         <div id="app">
-            <div id="container"></div>
+            <div id="container" ref="mapContainer"
+                @contextmenu.capture="removeNodeAtPointer"
+                @pointerdown.capture="stopEditorRightClick"
+                @pointerup.capture="stopEditorRightClick"
+                @mousedown.capture="stopEditorRightClick"
+                @mouseup.capture="stopEditorRightClick"
+                @click.capture="stopEditorRightClick"
+                @auxclick.capture="stopEditorRightClick"></div>
             <div class="tools">
                 <div class="item">
                     名称：<el-input type="text" size="small" v-model="form.name" ></el-input>
@@ -45,6 +52,10 @@
                 <div class="item">
                     距离：{{distance / 1000}} km
                 </div>
+                <div class="item">节点：{{pathCoordinates.length}} 个</div>
+                <p style="margin: 10px 0; color: #606266; line-height: 1.6;">
+                    右键点击路线节点可删除，至少保留 2 个节点。节点密集时请先放大地图，修改后点击“保存”生效。
+                </p>
                 <el-button type="primary" @click="submit" style="width: 100%;">保存</el-button>
             </div>
         </div>
@@ -134,6 +145,12 @@
 
                     this.handleDetail();
                 },
+                beforeDestroy() {
+                    this.closeEditor();
+                    if (this.map) {
+                        this.map.destroy();
+                    }
+                },
                 methods: {
                     handleDetail() {
                         let { name, _id } = this.form;
@@ -204,6 +221,7 @@
                     },
                     
                     drawPath(coordinates) {
+                        this.closeEditor();
                         // 清除现有的路线
                         if (this.editablePolyline) {
                             this.map.remove(this.editablePolyline);
@@ -233,7 +251,107 @@
                         this.map.setFitView();
                         this.polyEditor = new AMap.PolylineEditor(this.map, this.editablePolyline);
                         this.polyEditor.setTarget(this.editablePolyline);
+                        ['addnode', 'adjust', 'removenode'].forEach(eventName => {
+                            this.polyEditor.on(eventName, this.handlePathChange);
+                        });
                         this.polyEditor.open();
+                        this.syncPathState();
+                    },
+
+                    closeEditor() {
+                        if (this.polyEditor) {
+                            ['addnode', 'adjust', 'removenode'].forEach(eventName => {
+                                this.polyEditor.off(eventName, this.handlePathChange);
+                            });
+                            this.polyEditor.close();
+                            this.polyEditor.setTarget();
+                            this.polyEditor = null;
+                        }
+                    },
+
+                    getPathCoordinates() {
+                        if (!this.editablePolyline) {
+                            return [];
+                        }
+                        return this.editablePolyline.getPath().map(point => [point.lng, point.lat]);
+                    },
+
+                    syncPathState() {
+                        const coordinates = this.getPathCoordinates();
+                        if (coordinates.length < 2) {
+                            return;
+                        }
+                        this.pathCoordinates = coordinates;
+                        this.distance = Math.round(AMap.GeometryUtil.distanceOfLine(coordinates));
+                        const firstPoint = coordinates[0];
+                        const lastPoint = coordinates[coordinates.length - 1];
+                        this.form.firstPosition = firstPoint.join(',');
+                        this.form.lastPosition = lastPoint.join(',');
+                        if (this.startMarker) {
+                            this.startMarker.setPosition(firstPoint);
+                        }
+                        if (this.endMarker) {
+                            this.endMarker.setPosition(lastPoint);
+                        }
+                    },
+
+                    replacePath(coordinates) {
+                        // 重新绑定目标以刷新编辑节点，不改变地图当前缩放和中心。
+                        this.polyEditor.close();
+                        this.polyEditor.setTarget();
+                        this.editablePolyline.setPath(coordinates);
+                        this.polyEditor.setTarget(this.editablePolyline);
+                        this.polyEditor.open();
+                        this.syncPathState();
+                    },
+
+                    handlePathChange() {
+                        if (this.getPathCoordinates().length < 2) {
+                            this.replacePath(this.pathCoordinates);
+                            this.$message.warning('路线至少需要保留 2 个节点');
+                            return;
+                        }
+                        this.syncPathState();
+                    },
+
+                    stopEditorRightClick(event) {
+                        if (event.button === 2 || (event.button === 0 && event.ctrlKey)) {
+                            // 右键由 contextmenu 统一处理，避免编辑器提前删除或重复处理。
+                            event.stopImmediatePropagation();
+                        }
+                    },
+
+                    removeNodeAtPointer(event) {
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                        // 不把键盘菜单操作当作鼠标点选；兼容 macOS Control + 单击。
+                        if ((!event.ctrlKey && event.button !== 2) || !this.polyEditor) {
+                            return;
+                        }
+                        const coordinates = this.getPathCoordinates();
+                        const container = this.$refs.mapContainer;
+                        const rect = container.getBoundingClientRect();
+                        const x = (event.clientX - rect.left) * container.clientWidth / rect.width;
+                        const y = (event.clientY - rect.top) * container.clientHeight / rect.height;
+                        // 用屏幕像素命中实际节点，不能按经纬度距离删除远处的点。
+                        const candidates = coordinates.map((point, index) => {
+                            const pixel = this.map.lngLatToContainer(point);
+                            return { index, distance: Math.hypot(pixel.getX() - x, pixel.getY() - y) };
+                        }).filter(point => point.distance <= 8).sort((a, b) => a.distance - b.distance);
+                        if (!candidates.length) {
+                            return;
+                        }
+                        if (coordinates.length <= 2) {
+                            this.$message.warning('路线至少需要保留 2 个节点');
+                            return;
+                        }
+                        if (candidates.length > 1 && candidates[1].distance - candidates[0].distance < 2) {
+                            this.$message.warning('节点过于密集，请放大地图后再右键删除');
+                            return;
+                        }
+                        coordinates.splice(candidates[0].index, 1);
+                        this.replacePath(coordinates);
+                        this.$message.success('节点已删除，点击“保存”后生效');
                     },
                     
                     fill(actionType = 'firstPosition') {
@@ -242,7 +360,11 @@
                     
                     async submit() {
                         const { _id, name, description, index, status } = this.form;
-                        let paths = this.polyEditor.getTarget().getPath().map(item => [item.lng, item.lat]);
+                        const paths = this.getPathCoordinates();
+                        if (paths.length < 2) {
+                            this.$message.warning('路线至少需要保留 2 个节点');
+                            return;
+                        }
                         var distance = Math.round(AMap.GeometryUtil.distanceOfLine(paths));
                         
                         let data = {
