@@ -1,0 +1,103 @@
+{
+  "road": "G314",
+  "relation": 163791,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-09-09T02:36:08Z",
+  "inputSha256": "2abb4aafc8f58a714c6680ba08dfbc14e759798a1b40cfd38ecc236d99aa6d52",
+  "uniqueWays": 895,
+  "uniqueRelationWays": 714,
+  "activeRelationWays": 712,
+  "supplementalWays": 183,
+  "topologyComponents": 12,
+  "selectedGraphEdges": 9444,
+  "selectedGraphDistance": 1924975,
+  "repeatedGraphEdgeDistance": 0,
+  "selectedWayQuality": {
+    "uniqueWays": 531,
+    "supplementalWays": 28,
+    "constructionWays": 0,
+    "proposedWays": 0,
+    "nonRoadWayIds": []
+  },
+  "bridges": [
+    {
+      "id": 1,
+      "leg": 1,
+      "from": [
+        88.7567467,
+        43.0639658
+      ],
+      "to": [
+        88.757319,
+        43.0644357
+      ],
+      "straightDistance": 70,
+      "routeDistance": 70,
+      "mode": "straight"
+    }
+  ],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 4,
+    "maximumExtraDistance": 30000,
+    "straightFallbackAllowed": true
+  },
+  "bridgeWarnings": [],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 10,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 190877,
+  "totalDistance": 1908766,
+  "minimumPartDistance": 177842,
+  "maximumPartDistance": 192507,
+  "startWgs84": [
+    87.5888577,
+    43.8044972
+  ],
+  "finishWgs84": [
+    75.4283236,
+    36.850337
+  ],
+  "viaWgs84": [],
+  "startGcj02": [
+    87.591699,
+    43.805708
+  ],
+  "finishGcj02": [
+    75.433592,
+    36.851088
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 192507,
+    "maximumAdjacentPartGap": 0,
+    "postImportEditedParts": [
+      1,
+      2,
+      10
+    ],
+    "distanceRecalculation": "passed"
+  },
+  "collectionScope": {
+    "from": "乌鲁木齐",
+    "to": "红其拉甫",
+    "routeName": "乌鲁木齐—红其拉甫公路（G314，乌红线）",
+    "startCoverage": "起点取乌鲁木齐东南近郊 OSM G312/G314 共线道路的最近可用节点。",
+    "finishCoverage": "终点取红其拉甫方向 OSM 主关系的最南端可用节点。"
+  },
+  "dataSources": {
+    "primaryRelation": "https://www.openstreetmap.org/relation/163791",
+    "supplementalGeometry": [
+      "乌鲁木齐附近 G312 共线道路",
+      "主关系断点附近的 G314 标注道路与实际道路几何"
+    ],
+    "mergedInputSha256": "2abb4aafc8f58a714c6680ba08dfbc14e759798a1b40cfd38ecc236d99aa6d52"
+  },
+  "limitations": [
+    "这是公开 OSM 路线几何采集，不是官方测绘或实时通行导航数据；忽略单行方向进行线形重建。",
+    "吐鲁番附近主关系存在一处约 70 米的拓扑断点；公开路由绕行约 54 km，因此保留短直连并在 bridges 中记录。",
+    "乌鲁木齐起点与红其拉甫端点均采用 OSM 中可连续重建的最近道路节点，精确桩号和口岸内线路待核验。",
+    "第 1、2、10 段经采集页面编辑，报告已按当前保存后的几何重新计算里程，并将相邻端点精确对齐。"
+  ]
+}

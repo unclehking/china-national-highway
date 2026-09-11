@@ -1,0 +1,215 @@
+{
+  "road": "G315",
+  "relation": 932944,
+  "source": "© OpenStreetMap contributors",
+  "sourceLicense": "ODbL 1.0",
+  "sourceTimestamp": "2026-09-09T02:34:00Z",
+  "inputSha256": "e05a3234b285f1755dc20dcff02230c7f292d37d42ceab1da8d66810aff6dcbd",
+  "uniqueWays": 1252,
+  "uniqueRelationWays": 1129,
+  "activeRelationWays": 1119,
+  "supplementalWays": 133,
+  "topologyComponents": 15,
+  "selectedGraphEdges": 10612,
+  "selectedGraphDistance": 3098100,
+  "repeatedGraphEdgeDistance": 0,
+  "selectedWayQuality": {
+    "uniqueWays": 853,
+    "supplementalWays": 35,
+    "constructionWays": 0,
+    "proposedWays": 0,
+    "nonRoadWayIds": []
+  },
+  "bridges": [
+    {
+      "id": 11,
+      "leg": 1,
+      "from": [
+        90.1212718,
+        38.4927139
+      ],
+      "to": [
+        90.1225152,
+        38.494854
+      ],
+      "straightDistance": 261,
+      "routeDistance": 261,
+      "mode": "straight"
+    },
+    {
+      "id": 13,
+      "leg": 1,
+      "from": [
+        89.8619675,
+        39.158581
+      ],
+      "to": [
+        89.8619082,
+        39.1583917
+      ],
+      "straightDistance": 22,
+      "routeDistance": 22,
+      "mode": "straight"
+    },
+    {
+      "id": 10,
+      "leg": 1,
+      "from": [
+        82.6888162,
+        37.0664902
+      ],
+      "to": [
+        82.688806,
+        37.0662868
+      ],
+      "straightDistance": 23,
+      "routeDistance": 102,
+      "mode": "osrm"
+    },
+    {
+      "id": 1,
+      "leg": 1,
+      "from": [
+        82.6894802,
+        37.0637187
+      ],
+      "to": [
+        82.6893875,
+        37.0634946
+      ],
+      "straightDistance": 26,
+      "routeDistance": 43,
+      "mode": "osrm"
+    },
+    {
+      "id": 4,
+      "leg": 1,
+      "from": [
+        79.5701179,
+        37.1105848
+      ],
+      "to": [
+        79.567683,
+        37.1110103
+      ],
+      "straightDistance": 221,
+      "routeDistance": 221,
+      "mode": "straight"
+    },
+    {
+      "id": 14,
+      "leg": 1,
+      "from": [
+        79.3535994,
+        37.1785061
+      ],
+      "to": [
+        79.3530817,
+        37.1777372
+      ],
+      "straightDistance": 97,
+      "routeDistance": 97,
+      "mode": "straight"
+    },
+    {
+      "id": 17,
+      "leg": 1,
+      "from": [
+        78.1277543,
+        37.5965201
+      ],
+      "to": [
+        78.1277014,
+        37.5957947
+      ],
+      "straightDistance": 81,
+      "routeDistance": 81,
+      "mode": "straight"
+    },
+    {
+      "id": 9,
+      "leg": 1,
+      "from": [
+        77.6948959,
+        37.7849285
+      ],
+      "to": [
+        77.6930395,
+        37.7866661
+      ],
+      "straightDistance": 253,
+      "routeDistance": 253,
+      "mode": "straight"
+    },
+    {
+      "id": 6,
+      "leg": 1,
+      "from": [
+        77.3930224,
+        37.9108962
+      ],
+      "to": [
+        77.3921617,
+        37.9120276
+      ],
+      "straightDistance": 147,
+      "routeDistance": 1783,
+      "mode": "osrm"
+    }
+  ],
+  "bridgeRoutingPolicy": {
+    "maximumDetourRatio": 4,
+    "maximumExtraDistance": 30000,
+    "straightFallbackAllowed": true
+  },
+  "bridgeWarnings": [],
+  "coordinateSystem": "GCJ-02",
+  "partCount": 15,
+  "targetPartDistance": 200000,
+  "averagePartDistance": 206666,
+  "totalDistance": 3099988,
+  "minimumPartDistance": 206666,
+  "maximumPartDistance": 206666,
+  "startWgs84": [
+    101.76738,
+    36.6190742
+  ],
+  "finishWgs84": [
+    75.3939061,
+    40.5516709
+  ],
+  "viaWgs84": [],
+  "startGcj02": [
+    101.76932630680655,
+    36.61900246919373
+  ],
+  "finishGcj02": [
+    75.39732034061903,
+    40.552269692101774
+  ],
+  "validation": {
+    "jsonSchema": "passed",
+    "coordinateSystem": "GCJ-02",
+    "maximumPartDistance": 206666,
+    "maximumAdjacentPartGap": 0
+  },
+  "collectionScope": {
+    "from": "西宁",
+    "to": "吐尔尕特",
+    "routeName": "西宁—吐尔尕特公路（G315，西吐线）",
+    "startCoverage": "起点取西宁 OSM G109/G315 共线道路的最近可用节点。",
+    "finishCoverage": "终点取吐尔尕特口岸方向 OSM 主关系的最西北端可用节点。"
+  },
+  "dataSources": {
+    "primaryRelation": "https://www.openstreetmap.org/relation/932944",
+    "supplementalGeometry": [
+      "西宁附近 G109/G315 共线道路"
+    ],
+    "mergedInputSha256": "e05a3234b285f1755dc20dcff02230c7f292d37d42ceab1da8d66810aff6dcbd"
+  },
+  "limitations": [
+    "这是公开 OSM 路线几何采集，不是官方测绘或实时通行导航数据；忽略单行方向进行线形重建。",
+    "主关系有 6 处共约 935 米的短拓扑断点，已在 bridges 中以 straight 模式记录；另外 3 处使用公开道路路由连接。",
+    "西宁起点与吐尔尕特口岸端点均采用 OSM 中可连续重建的最近道路节点，精确桩号和口岸内线路待核验。"
+  ]
+}

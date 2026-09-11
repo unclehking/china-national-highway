@@ -26,9 +26,9 @@
     },
     {
       "name": "G315",
-      "status": 0,
+      "status": 1,
       "index": 4,
-      "subTitle": "西宁-喀什"
+      "subTitle": "西宁—吐尔尕特"
     },
     {
       "name": "G317",
@@ -102,6 +102,12 @@
       "subTitle": "西宁—澜沧",
       "status": 1,
       "index": 16
+    },
+    {
+      "name": "G314",
+      "subTitle": "乌鲁木齐—红其拉甫",
+      "status": 1,
+      "index": 17
     }
   ]
 }
